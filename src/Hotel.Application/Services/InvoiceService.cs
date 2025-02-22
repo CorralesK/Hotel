@@ -8,5 +8,6 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class InvoiceService
     {
+
     }
 }

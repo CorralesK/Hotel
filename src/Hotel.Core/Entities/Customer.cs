@@ -8,5 +8,9 @@ namespace Hotel.src.Hotel.Core.Entities
 {
     class Customer
     {
+        private int ID
+        private string EMAIL
+        private string NOMBRE
+        private string CONTRASE;
     }
 }

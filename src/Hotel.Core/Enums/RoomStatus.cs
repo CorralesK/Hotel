@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.src.Hotel.Application.Services
+namespace Hotel.src.Hotel.Core.Enums
 {
-    class ReportService
+    enum RoomStatus
     {
-        ocupacion hotel (rango fechas)
+        Disponible,
+        Ocupada
     }
 }

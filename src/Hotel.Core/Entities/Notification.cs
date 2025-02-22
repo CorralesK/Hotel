@@ -8,5 +8,9 @@ namespace Hotel.src.Hotel.Core.Entities
 {
     class Notification
     {
+        private NOMBRE
+        private EMAILCLIENTE
+        private SUJETO
+        private CUERPO
     }
 }

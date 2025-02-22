@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Hotel.Core.Enums
 {
-    class RoomType
+    enum RoomType
     {
+        Junior,
+        Estandar,
+        Superior
     }
 }

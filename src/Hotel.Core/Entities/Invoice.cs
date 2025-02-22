@@ -8,5 +8,9 @@ namespace Hotel.src.Hotel.Core.Entities
 {
     class Invoice
     {
+        private int ID
+        private int IDDETALLE
+        private date FECHA
+
     }
 }
