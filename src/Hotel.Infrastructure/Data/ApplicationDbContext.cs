@@ -35,6 +35,8 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         /// A DbSet of Room entities.
         /// </value>
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<ReservationRoom> ReservationRooms { get; set; }
     }
 }
 
