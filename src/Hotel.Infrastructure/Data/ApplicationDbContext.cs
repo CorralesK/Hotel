@@ -28,6 +28,14 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         /// A DbSet of Customer entities.
         /// </value>
         public DbSet<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Rooms DbSet which represents the collection of all Room entities in the context.
+        /// </summary>
+        /// <value>
+        /// A DbSet of Room entities.
+        /// </value>
+        public DbSet<Room> Rooms { get; set; }
     }
 }
 
