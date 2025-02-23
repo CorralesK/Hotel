@@ -11,7 +11,7 @@ namespace Hotel.src.Hotel.Core.Interfaces.IRepository
     {
         void Add(Reservation reservation);
         void Update(Reservation reservation);
-        Reservation GetById(int id);
+        Reservation GetById(long id);
         List<Reservation> GetByClientId(int clientId);
         List<Reservation> GetByDateRange(DateTime startDate, DateTime endDate);
     }
