@@ -14,7 +14,7 @@ namespace Hotel.src.Hotel.Application.Services
         private readonly IReservationRepository _reservationRepository;
 
         //Constructor que recibe el irepositorio como dependencia
-        public ReservationService(IReservationRepository reservationRepository, IRoomRepository roomRepository)
+        public ReservationService(IReservationRepository reservationRepository)
         {
             _reservationRepository = reservationRepository;
         }
