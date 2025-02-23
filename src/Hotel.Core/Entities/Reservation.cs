@@ -9,12 +9,30 @@ namespace Hotel.src.Hotel.Core.Entities
 {
     class Reservation
     {
-        private int ID
-        private int IDCLIENTE
-        private date FECHAINICIO
-        private date FECHAFIN
-        private List<Room> HABITACIONES
-        private PRECIOTOTAL
-        private ReservationStatus STATUS
+        public int ID { get; set; }
+        public int CLIENTID { get; set; }
+        public DateTime STARTDATE { get; set; }
+        public DateTime ENDDATE { get; set; }
+        public List<Room> Rooms { get; set; }
+        public float TOTALPRICE {get; set; }
+        public ReservationStatus STATUS { get; set; }
+        public Reservation()
+        {
+            Rooms = new List<Room>();
+        }
+        public Reservation(int id, int clientId, DateTime startDate, DateTime endDate, List<Room> rooms, float totalPrice, ReservationStatus status)
+        {
+            ID = id;
+            CLIENTID = clientId;
+            STARTDATE = startDate;
+            ENDDATE = endDate;
+            Rooms = rooms;
+            TOTALPRICE = totalPrice;
+            STATUS = status;
+        }
+        public void CalculateTotalPrice()
+        {
+            // Logica para calcular el total de todas las reservas
+        }
     }
-}
+ }
