@@ -8,7 +8,7 @@ namespace Hotel.src.Hotel.Core.Enums
 {
     enum RoomStatus
     {
-        Disponible,
-        Ocupada
+        DISPONIBLE,
+        OCUPADO
     }
 }

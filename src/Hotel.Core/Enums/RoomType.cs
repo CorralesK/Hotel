@@ -8,8 +8,8 @@ namespace Hotel.src.Hotel.Core.Enums
 {
     enum RoomType
     {
-        Junior,
-        Estandar,
-        Superior
+        SIMPLE,
+        DOBLE,
+        SUITE
     }
 }
