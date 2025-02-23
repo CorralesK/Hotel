@@ -28,6 +28,7 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         /// A DbSet of User entities.
         /// </value>
         public DbSet<User> Users { get; set; }
+
         /// <summary>
         /// Gets or sets the Rooms DbSet which represents the collection of all Room entities in the context.
         /// </summary>
@@ -37,6 +38,31 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationRoom> ReservationRooms { get; set; }
+
+
+        // Hola soy Kim, dejo estos comentarios para que entiendan
+        // Configuración de las relaciones y claves primarias
+        // Da error porque el ID de reservacion es de tipo log
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configurar la clave primaria compuesta para ReservationRoom
+            modelBuilder.Entity<ReservationRoom>()
+                .HasKey(rr => new { rr.ReservationID, rr.RoomID });
+
+            // Configurar la relación entre Reservation y ReservationRoom
+            modelBuilder.Entity<ReservationRoom>()
+                .HasOne(rr => rr.Reservation)
+                .WithMany(r => r.ReservationRooms)
+                .HasForeignKey(rr => rr.ReservationID);
+
+            // Configurar la relación entre Room y ReservationRoom
+            modelBuilder.Entity<ReservationRoom>()
+                .HasOne(rr => rr.Room)
+                .WithMany(r => r.ReservationRooms)
+                .HasForeignKey(rr => rr.RoomID);
+        }
     }
 }
 
