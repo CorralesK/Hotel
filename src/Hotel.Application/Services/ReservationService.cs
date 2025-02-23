@@ -12,13 +12,11 @@ namespace Hotel.src.Hotel.Application.Services
     class ReservationService
     {
         private readonly IReservationRepository _reservationRepository;
-        private readonly IRoomRepository _roomRepository;
 
         //Constructor que recibe el irepositorio como dependencia
         public ReservationService(IReservationRepository reservationRepository, IRoomRepository roomRepository)
         {
             _reservationRepository = reservationRepository;
-            _roomRepository = roomRepository;
         }
         // Registrar reserva
         public void RegisterReservation(Reservation reservation)
@@ -40,8 +38,6 @@ namespace Hotel.src.Hotel.Application.Services
         }
 
         // Cancelar reserva
-        // Esto me cancela toda la reserva, y lo que dice el enunciado es que se debe cancelar una habitación de la reserva
-        // para liberar una habitación si ya no la necesito
         public void CancelReservation(long reservationId)
         {
             var reservation = _reservationRepository.GetById(reservationId);
