@@ -27,7 +27,7 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         /// <value>
         /// A DbSet of Customer entities.
         /// </value>
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
 

@@ -26,12 +26,13 @@ namespace Hotel.src.Hotel.Application.Services
             _reservationRepository = reservationRepository;
         }
         // Registrar reserva
+        /*
         public void RegisterReservation(Reservation reservation)
         {
             reservation.CalculateTotalPrice();
             _reservationRepository.Add(reservation);
         }
-
+        */
         // Obtener reserva por cliente(idCliente)
         public List<Reservation> GetReservationsByClientId(int clientId)
         {
