@@ -9,7 +9,9 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class CustomerService
     {
+        /*
         Registrar cliente
         obtener cliente
+        */
     }
 }

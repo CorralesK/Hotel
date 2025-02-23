@@ -1,6 +1,8 @@
 ﻿using Hotel.src.Hotel.Core.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ namespace Hotel.src.Hotel.Core.Entities
 {
     class Reservation
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int CLIENTID { get; set; }
         public DateTime STARTDATE { get; set; }
@@ -30,9 +34,12 @@ namespace Hotel.src.Hotel.Core.Entities
             TOTALPRICE = totalPrice;
             STATUS = status;
         }
+
+        /**
         public void CalculateTotalPrice()
         {
             // Logica para calcular el total de todas las reservas
         }
+        **/
     }
  }

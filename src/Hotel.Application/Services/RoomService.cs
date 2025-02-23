@@ -8,9 +8,11 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class RoomService
     {
+        /*
         agregar
         busacar(tipo o precio o disponibilidad)
 
         listar disponibilidad por rango de fechas (idhabitacion)
+        */
     }
 }

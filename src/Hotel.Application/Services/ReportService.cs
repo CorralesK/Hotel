@@ -8,6 +8,9 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class ReportService
     {
+        /*
         ocupacion hotel (rango fechas)
+
+        */
     }
 }

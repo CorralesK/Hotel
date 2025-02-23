@@ -8,11 +8,12 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class ReservationService
     {
+        /*
         reservar
         cancelar
         obtener reserva por cliente (idCliente)
 
         obtener resevas por rango de fecha
-
+        */
     }
 }
