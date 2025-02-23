@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Hotel.src.Hotel.Core.Enums;
 
@@ -14,11 +9,22 @@ namespace Hotel.src.Hotel.Core.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        private int ID { get; }
-        private RoomType TYPE { get; set; }
-        private int ROOMNUMBER { get; set; }
-        private float PRICE { get; set; }
-        private RoomStatus STATUS { get; set; }
+        public int ID { get; set; }
+
+        [Required]
+        public string ROOMNUMBER { get; set; }
+
+        [Required]
+        public RoomType TYPE { get; set; }
+
+        [Required]
+        public double PRICEPERNIGHT { get; set; }
+
+        [Required]
+        public int CAPACITY { get; set; }
+
+        [Required]
+        public RoomStatus STATUS { get; set; }
 
 
         /*Soy keisy, en las migraciones no se puede usar la lista da error, entonces
@@ -27,5 +33,17 @@ namespace Hotel.src.Hotel.Core.Entities
          * pueden estar en una reserva, entonces por eso se usa el ICollection.
          */
         public ICollection<ReservationRoom> ReservationRooms { get; set; } = new List<ReservationRoom>();
+
+
+        public Room() { }
+
+        public Room(string roomNumber, RoomType type, double pricePerNight, int capacity, RoomStatus status)
+        {
+            ROOMNUMBER = roomNumber;
+            TYPE = type;
+            PRICEPERNIGHT = pricePerNight;
+            CAPACITY = capacity;
+            STATUS = status;
+        }
     }
 }

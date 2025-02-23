@@ -22,12 +22,19 @@ namespace Hotel.src.Hotel.Infrastructure.Data
         }
 
         /// <summary>
-        /// Gets or sets the Customers DbSet which represents the collection of all Customer entities in the context.
+        /// Gets or sets the Users DbSet which represents the collection of all Customer entities in the context.
         /// </summary>
         /// <value>
-        /// A DbSet of Customer entities.
+        /// A DbSet of User entities.
         /// </value>
         public DbSet<User> Users { get; set; }
+        /// <summary>
+        /// Gets or sets the Rooms DbSet which represents the collection of all Room entities in the context.
+        /// </summary>
+        /// <value>
+        /// A DbSet of Room entities.
+        /// </value>
+        public DbSet<Room> Rooms { get; set; }
     }
 }
 
