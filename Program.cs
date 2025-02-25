@@ -1,10 +1,10 @@
-﻿using Hotel.src.Hotel.ConsoleUI;
+﻿using Hotel.src.HotelConsoleUI;
 using System;
-using Hotel.src.Hotel.Application.Services;
-using Hotel.src.Hotel.Infrastructure.Repositories;
-using Hotel.src.Hotel.Infrastructure.Data;
+using Hotel.src.HotelApplication.Services;
+using Hotel.src.HotelInfrastructure.Repositories;
+using Hotel.src.HotelInfrastructure.Data;
 
-namespace Hotel.src.Hotel.ConsoleUI
+namespace Hotel.src.HotelConsoleUI
 {
     class Program
     {
