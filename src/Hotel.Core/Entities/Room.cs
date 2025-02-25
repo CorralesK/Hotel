@@ -2,9 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 
 using Hotel.src.Hotel.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.src.Hotel.Core.Entities
 {
+    [Index(nameof(ROOMNUMBER), IsUnique = true)] // Unique_key
     class Room
     {
         [Key]
