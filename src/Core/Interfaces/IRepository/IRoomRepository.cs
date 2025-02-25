@@ -2,7 +2,7 @@
 using Hotel.src.Core.Enums;
 
 
-namespace Hotel.src.HotelCore.Interfaces.IRepository
+namespace Hotel.src.Core.Interfaces.IRepository
 {
     interface IRoomRepository
     {
