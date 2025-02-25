@@ -24,7 +24,7 @@ namespace Hotel.src.Hotel.Core.Entities
         [Required]
         public DateTime ENDDATE { get; set; }
         [Required]
-        public float TOTALPRICE {get; set; }
+        public double TOTALPRICE {get; set; }
         [Required]
         public ReservationStatus STATUS { get; set; }
 
@@ -34,9 +34,8 @@ namespace Hotel.src.Hotel.Core.Entities
         {
             
         }
-        public Reservation(int id, int clientId, DateTime startDate, DateTime endDate, float totalPrice, ReservationStatus status)
+        public Reservation(int clientId, DateTime startDate, DateTime endDate, float totalPrice, ReservationStatus status)
         {
-            ID = id;
             CLIENTID = clientId;
             STARTDATE = startDate;
             ENDDATE = endDate;
@@ -47,7 +46,14 @@ namespace Hotel.src.Hotel.Core.Entities
         
         public void CalculateTotalPrice()
         {
-            // Logica para calcular el total de todas las reservas
+            TOTALPRICE = 0;
+            foreach (var reservationRoom in ReservationRooms)
+            {
+                // Calcular el número de días de la reserva
+                int days = (int)(ENDDATE - STARTDATE).TotalDays;
+                // Sumar el precio de cada habitación multiplicado por los días
+                TOTALPRICE += reservationRoom.Room.PRICEPERNIGHT * days;
+            }
         }
     }
  }

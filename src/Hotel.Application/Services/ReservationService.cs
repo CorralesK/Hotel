@@ -19,8 +19,10 @@ namespace Hotel.src.Hotel.Application.Services
             _reservationRepository = reservationRepository;
         }
 
-        public void RegisterReservation(Reservation reservation)
+
+        public void RegisterReservation(int clientId, DateTime startDate, DateTime endDate)
         {
+            var reservation = new Reservation(clientId, startDate, endDate, 0, ReservationStatus.Confirmada);
             reservation.CalculateTotalPrice();
             _reservationRepository.Add(reservation);
         }
