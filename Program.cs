@@ -4,7 +4,7 @@ using Hotel.src.Application.Services;
 using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Infrastructure.Data;
 
-namespace Hotel.src.HotelConsoleUI
+namespace Hotel.src.ConsoleUI
 {
     class Program
     {
