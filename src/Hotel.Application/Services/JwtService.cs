@@ -54,5 +54,22 @@ namespace Hotel.src.Hotel.Application.Services
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal.FindFirst(ClaimTypes.Role)?.Value; // 📌 Retorna el Rol
         }
+        public int GetUserIdFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(SecretKey);
+
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+            var userId = principal.FindFirst(Claim)
+            return principal.FindFirst(ClaimTypes.NameIdentifier); // Get id of the user.
+        }
     }
 }
