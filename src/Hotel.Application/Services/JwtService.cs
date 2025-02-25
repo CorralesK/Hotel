@@ -68,8 +68,7 @@ namespace Hotel.src.Hotel.Application.Services
             };
 
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-            var userId = principal.FindFirst(Claim)
-            return principal.FindFirst(ClaimTypes.NameIdentifier); // Get id of the user.
+            return Int32.Parse(principal.FindFirst(ClaimTypes.NameIdentifier)?.Value); // Get id of the user.
         }
     }
 }
