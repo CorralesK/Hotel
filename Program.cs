@@ -1,8 +1,8 @@
-﻿using Hotel.src.HotelConsoleUI;
+﻿using Hotel.src.ConsoleUI;
 using System;
-using Hotel.src.HotelApplication.Services;
-using Hotel.src.HotelInfrastructure.Repositories;
-using Hotel.src.HotelInfrastructure.Data;
+using Hotel.src.Application.Services;
+using Hotel.src.Infrastructure.Repositories;
+using Hotel.src.Infrastructure.Data;
 
 namespace Hotel.src.HotelConsoleUI
 {
