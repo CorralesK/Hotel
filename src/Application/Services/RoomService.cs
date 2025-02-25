@@ -1,7 +1,6 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IRepository;
-using Hotel.src.HotelCore.Interfaces.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
