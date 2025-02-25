@@ -31,7 +31,7 @@ namespace Hotel.src.Hotel.Infrastructure.Repositories
         }
 
         // Método para obtener una reserva por su ID
-        public Reservation GetById(long id)
+        public Reservation GetById(int id)
         {
             return _reservations.FirstOrDefault(r => r.ID == id);
         }

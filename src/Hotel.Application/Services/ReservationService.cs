@@ -11,13 +11,6 @@ namespace Hotel.src.Hotel.Application.Services
 {
     class ReservationService
     {
-        /*
-        reservar
-        cancelar
-        obtener reserva por cliente (idCliente)
-
-        obtener resevas por rango de fecha
-        */
         private readonly IReservationRepository _reservationRepository;
 
         //Constructor que recibe el irepositorio como dependencia
@@ -25,36 +18,37 @@ namespace Hotel.src.Hotel.Application.Services
         {
             _reservationRepository = reservationRepository;
         }
-        // Registrar reserva
-        /*
+
         public void RegisterReservation(Reservation reservation)
         {
             reservation.CalculateTotalPrice();
             _reservationRepository.Add(reservation);
         }
-        */
-        // Obtener reserva por cliente(idCliente)
+        
         public List<Reservation> GetReservationsByClientId(int clientId)
         {
             return _reservationRepository.GetByClientId(clientId);
         }
 
-        // Obtener resevas por rango de fecha
         public List<Reservation> GetReservationsByDateRange(DateTime startDate, DateTime endDate)
         {
             return _reservationRepository.GetByDateRange(startDate, endDate);
         }
 
-        // Cancelar reserva
-        public void CancelReservation(long reservationId)
+        // Cancelar habitación de una reserva
+        public void CancelRoomInReservation(int reservationId, int roomId)
         {
             var reservation = _reservationRepository.GetById(reservationId);
             if (reservation != null)
             {
-                reservation.STATUS = ReservationStatus.Cancelada;
-                _reservationRepository.Update(reservation);
+                var roomToRemove = reservation.ReservationRooms.FirstOrDefault(rr => rr.RoomID == roomId);
+                if (roomToRemove != null)
+                {
+                    reservation.ReservationRooms.Remove(roomToRemove);
+                    reservation.CalculateTotalPrice();
+                    _reservationRepository.Update(reservation);
+                }
             }
         }
-
     }
 }

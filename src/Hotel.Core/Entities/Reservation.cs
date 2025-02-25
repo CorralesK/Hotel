@@ -15,7 +15,7 @@ namespace Hotel.src.Hotel.Core.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long ID { get; set; }
+        public int ID { get; set; }
         [ForeignKey("User")]
         [Required]
         public int CLIENTID { get; set; }
@@ -44,11 +44,10 @@ namespace Hotel.src.Hotel.Core.Entities
             STATUS = status;
         }
 
-        /**
+        
         public void CalculateTotalPrice()
         {
             // Logica para calcular el total de todas las reservas
         }
-        **/
     }
  }
