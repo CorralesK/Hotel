@@ -11,6 +11,7 @@ namespace Hotel.src.ConsoleUI
     class Customer
     {
         private readonly RoomService _roomService;
+        private readonly ReservationMenu _reservationMenu;
 
         public Customer(RoomService roomService)
         {
@@ -25,7 +26,8 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
             Console.WriteLine("\n1. Buscar habitaciones");
             Console.WriteLine("2. Ver disponibilidad");
-            Console.WriteLine("3. Salir");
+            Console.WriteLine("3. Reservar");
+            Console.WriteLine("4. Salir");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -36,6 +38,9 @@ namespace Hotel.src.ConsoleUI
                 case "2":
                     break;
                 case "3":
+                    _reservationMenu.ShowReservationMenu();
+                    break;
+                case "4":
                     Program.ShowStartScreen();
                     break;
                 default:

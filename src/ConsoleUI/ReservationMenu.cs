@@ -14,6 +14,7 @@ namespace Hotel.src.ConsoleUI
         private readonly ReservationService _reservationService;
         private readonly RoomService _roomService;
         private readonly JwtService _jwtService;
+        private readonly Customer _customerMenu;
 
         public ReservationMenu(ReservationService reservationService, JwtService jwtService, RoomService roomService)
         {
@@ -22,7 +23,7 @@ namespace Hotel.src.ConsoleUI
             _roomService = roomService;
         }
 
-        public void ShowMenu()
+        public void ShowReservationMenu()
         {
             Console.Clear();
             Console.WriteLine("=========================================");
@@ -47,12 +48,12 @@ namespace Hotel.src.ConsoleUI
                    // GetReservationsByClientId();
                     break;
                 case "4":
-                    Program.ShowStartScreen();
+                    _customerMenu.ShowMenu();
                     break;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
                     Console.ReadKey();
-                    ShowMenu();
+                    ShowReservationMenu();
                     break;
             }
         }
@@ -93,7 +94,7 @@ namespace Hotel.src.ConsoleUI
                 Console.WriteLine("\nNo hay habitaciones disponibles para las fechas seleccionadas.");
                 Console.WriteLine("Presione cualquier tecla para continuar...");
                 Console.ReadKey();
-                ShowMenu();
+                ShowReservationMenu();
                 return;
             }
 
@@ -150,7 +151,7 @@ namespace Hotel.src.ConsoleUI
                 Console.WriteLine("\nNo se añadieron habitaciones a la reserva. La operación ha sido cancelada.");
                 Console.WriteLine("Presione cualquier tecla para continuar...");
                 Console.ReadKey();
-                ShowMenu();
+                ShowReservationMenu();
                 return;
             }
             // Registrar la reserva usando el servicio
@@ -161,8 +162,9 @@ namespace Hotel.src.ConsoleUI
             // Generar Factura
             Console.WriteLine("Presione cualquier tecla para continuar...");
             Console.ReadKey();
-            ShowMenu();
+            ShowReservationMenu();
         }
+
 
     }
 }

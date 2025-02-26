@@ -1,6 +1,7 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IRepository;
+using Hotel.src.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace Hotel.src.Infrastructure.Repositories
     class ReservationRepository : IReservationRepository
     {
         private readonly List<Reservation> _reservations = new List<Reservation>();
+        private ApplicationDbContext applicationDbContext;
+
+        public ReservationRepository(ApplicationDbContext applicationDbContext)
+        {
+            this.applicationDbContext = applicationDbContext;
+        }
 
         // Método para agregar una nueva reserva
         public void Add(Reservation reservation)
