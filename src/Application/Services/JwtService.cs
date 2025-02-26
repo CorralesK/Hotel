@@ -52,21 +52,28 @@ namespace Hotel.src.Application.Services
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal.FindFirst(ClaimTypes.Role)?.Value; // 📌 Retorna el Rol
         }
-        public string GetUserIdFromToken(string token)
+        public int GetUserIdFromToken(string token)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(SecretKey);
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            var validationParameters = new TokenValidationParameters
+            // Buscar el claim que contiene el ID del usuario (nameid)
+            var userIdClaim = jsonToken?.Claims.FirstOrDefault(c => c.Type == "nameid"); //'nameid'
+           
+
+            if (userIdClaim == null)
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
+                Console.WriteLine(userIdClaim);
+                throw new Exception("El token no contiene el ID del usuario.");
+            }
 
-            var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-            return principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int userId = int.Parse(userIdClaim.Value);
+            foreach (var claim in jsonToken.Claims)
+            {
+                Console.WriteLine($"➡ {claim.Type}: {claim.Value}");
+            }
+
+            return userId;
         }
     }
 }
