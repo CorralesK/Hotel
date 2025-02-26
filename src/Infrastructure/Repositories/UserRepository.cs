@@ -21,7 +21,19 @@ namespace Hotel.src.Infrastructure.Repositories
 
         public User GetUserByEmailAndRole(string email, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.EMAIL == email && u.PASSWORD == password);
+            var user = _context.Users.FirstOrDefault(u => u.EMAIL == email && u.PASSWORD == password);
+
+            if (user == null)
+            {
+                Console.WriteLine("⚠️ Usuario no encontrado.");
+            }
+            else
+            {
+                Console.WriteLine($"✅ Usuario encontrado: ID={user.ID}, Email={user.EMAIL}");
+            }
+
+            return user;
         }
+
     }
 }

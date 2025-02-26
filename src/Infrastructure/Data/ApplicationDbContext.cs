@@ -15,8 +15,11 @@ namespace Hotel.src.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            var envVars = DotEnv.Read();
-            options.UseNpgsql(envVars["DATABASE_URL"]);
+            
+            DotNetEnv.Env.Load(@"C:\Users\USER\source\repos\Hotel\.env");
+            string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+            Console.WriteLine("Conexión a la base de datos: " + connectionString);
+            options.UseNpgsql(connectionString);
         }
 
         /// <summary>

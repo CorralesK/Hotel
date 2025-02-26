@@ -20,6 +20,7 @@ namespace Hotel.src.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                 new Claim(ClaimTypes.Email, user.EMAIL),
                 new Claim(ClaimTypes.Role, user.ROLE.ToString()) // 📌 Se guarda el rol en el token
                 }),
@@ -65,7 +66,14 @@ namespace Hotel.src.Application.Services
             };
 
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-            return Int32.Parse(principal.FindFirst(ClaimTypes.NameIdentifier)?.Value); // Get id of the user.
+            var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                throw new Exception("userid is empyt");
+            }
+
+            return Int32.Parse(userIdClaim.Value);
         }
     }
 }

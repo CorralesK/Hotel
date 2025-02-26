@@ -6,6 +6,7 @@ using Hotel.src.Infrastructure.Data;
 using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using Hotel.src.Core.Enums;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -48,8 +49,17 @@ namespace Hotel.src.ConsoleUI
 
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
                     {
-                        Admin admin = new Admin(new RoomService(new RoomRepository(new ApplicationDbContext())));
-                        admin.ShowMenu();
+                        var handler = new JwtSecurityTokenHandler();
+                        var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+                        Console.WriteLine("\n📜 Contenido del token:");
+                        foreach (var claim in jsonToken.Claims)
+                        {
+                            Console.WriteLine($"➡ {claim.Type}: {claim.Value}");
+                        }
+
+                        //Admin admin = new Admin(new RoomService(new RoomRepository(new ApplicationDbContext())));
+                        //admin.ShowMenu();
 
                     }
 
