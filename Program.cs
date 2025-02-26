@@ -3,6 +3,9 @@ using System;
 using Hotel.src.Application.Services;
 using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Infrastructure.Data;
+using Hotel.src.Core.Interfaces.IServices;
+using Microsoft.Extensions.DependencyInjection;
+using Hotel.src.Core.Enums;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -27,11 +30,29 @@ namespace Hotel.src.ConsoleUI
             switch (option)
             {
                 case "1":
-                    //Aqui se llama el metodo que muestra ek login pero lo voy a usar pata probar mis funcionalidades.
+                    // Obtener el proveedor de servicios configurado en ServiceConfigurator.cs
+                    var serviceProvider = ServiceConfigurator.ConfigureServices();
+                    // Obtener el servicio de autenticación desde el contenedor DI 
+                    var authService = serviceProvider.GetService<IAuthService>();
+                    var jwtService = serviceProvider.GetService<JwtService>();
 
-                    // Crear una instancia de Admin y mostrar su menú
-                    Admin admin = new Admin(new RoomService(new RoomRepository(new ApplicationDbContext())));
-                    admin.ShowMenu();
+
+                    // Simulación de autenticación
+                    Console.Write("Email: ");
+                    string email = Console.ReadLine();
+                    Console.Write("Password: ");
+                    string password = Console.ReadLine();
+
+                    string token = authService.Authenticate(email, password);
+                    string role = jwtService.GetRoleFromToken(token);
+
+                    if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
+                    {
+                        Admin admin = new Admin(new RoomService(new RoomRepository(new ApplicationDbContext())));
+                        admin.ShowMenu();
+
+                    }
+
 
                     break;
                 case "2":

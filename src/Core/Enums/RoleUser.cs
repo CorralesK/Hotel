@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Enums
 {
-    enum RoleUser
+    public enum RoleUser
     {
         User, // 0 
         Admin // 1

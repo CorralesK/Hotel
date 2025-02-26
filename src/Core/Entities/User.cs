@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Hotel.src.Core.Entities
 {
     [Index(nameof(EMAIL), IsUnique = true)] // Unique_key
-    class User
+    public class User
     {
 
         [Key]

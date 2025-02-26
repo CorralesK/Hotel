@@ -8,7 +8,7 @@ using Hotel.src.Core.Interfaces.IServices;
 
 namespace Hotel.src.Application.Services
 {
-    class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
         private readonly JwtService _jwtService;

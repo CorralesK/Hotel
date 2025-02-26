@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Hotel.src.Core.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.src.Application.Services
 {
-    class JwtService
+    public class JwtService
     {
-        private const string SecretKey = "SecretoMuySeguro123!"; // 📌 Secreto del token
+        private const string SecretKey = "mi-clave-super-secreta-de-mas-de-32-caracteres!"; // 📌 Secreto del token
 
         public string GenerateToken(User user)
         {

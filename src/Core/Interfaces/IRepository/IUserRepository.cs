@@ -8,7 +8,7 @@ using Hotel.src.Core.Enums;
 
 namespace Hotel.src.Core.Interfaces.IRepository
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
         User GetUserByEmailAndRole(string email, string password);
     }
