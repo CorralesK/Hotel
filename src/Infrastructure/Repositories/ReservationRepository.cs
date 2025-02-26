@@ -39,7 +39,7 @@ namespace Hotel.src.Infrastructure.Repositories
         // Método para obtener las reservas de un cliente
         public List<Reservation> GetByClientId(int clientId)
         {
-            return _reservations.Where(r => r.CLIENTID == clientId).ToList();
+            return _reservations.Where(r => r.USERID == clientId).ToList();
         }
 
         // Método para obtener las reservas en un rango de fechas

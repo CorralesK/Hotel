@@ -1,11 +1,7 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Hotel.src.Application.Services
 {
@@ -73,6 +69,7 @@ namespace Hotel.src.Application.Services
 
             return availableRooms;
         }
+
 
     }
 }

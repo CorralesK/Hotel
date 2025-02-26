@@ -19,5 +19,6 @@ namespace Hotel.src.Core.Entities
         [Required]
         public Room Room { get; set; }
 
+        public ReservationRoom() { }
     }
 }

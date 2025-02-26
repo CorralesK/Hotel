@@ -64,7 +64,9 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
 
             // Obtener ID del cliente
-            int clientId = _jwtService.GetUserIdFromToken(token);
+
+            int clientId = 0; //_jwtService.GetUserIdFromToken(token);
+            
             // Obtener fecha de inicio
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;
@@ -81,6 +83,7 @@ namespace Hotel.src.ConsoleUI
             }
             
             // Crear la reserva
+            
             Reservation reservation = new Reservation(clientId, startDate, endDate, 0, ReservationStatus.Confirmada);
             // Obtener habitaciones disponibles
             var availableRooms = _roomService.CheckAvailability(startDate, endDate);
@@ -114,7 +117,10 @@ namespace Hotel.src.ConsoleUI
                 }
 
                 // Aquí deberíamos verificar que la habitación existe y está disponible
+
+                /*
                 var room = _roomService.GetRoomById(roomNumber);
+
                 if (room == null)
                 {
                     Console.WriteLine("La habitación no existe. Intente con otro ID.");
@@ -134,7 +140,9 @@ namespace Hotel.src.ConsoleUI
 
                 Console.Write("¿Desea añadir otra habitación? (S/N): ");
                 string response = Console.ReadLine().ToUpper();
+
                 addMoreRooms = (response == "S");
+                */
             }
             // Verificar si se añadieron habitaciones
             if (reservation.ReservationRooms.Count == 0)

@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace Hotel.src.Core.Entities
 {
@@ -16,9 +17,9 @@ namespace Hotel.src.Core.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [ForeignKey("User")]
         [Required]
-        public int CLIENTID { get; set; }
+        [ForeignKey(nameof(User))]
+        public int USERID { get; set; }
         [Required]
         public DateTime STARTDATE { get; set; }
         [Required]
@@ -27,7 +28,7 @@ namespace Hotel.src.Core.Entities
         public double TOTALPRICE {get; set; }
         [Required]
         public ReservationStatus STATUS { get; set; }
-
+        public User User { get; init; }
         // Relación muchos a muchos con la tabla de habitaciones (a través de la tabla intermedia ReservationRoom)
         public ICollection<ReservationRoom> ReservationRooms { get; set; } = new List<ReservationRoom>();
         public Reservation()
@@ -36,7 +37,7 @@ namespace Hotel.src.Core.Entities
         }
         public Reservation(int clientId, DateTime startDate, DateTime endDate, float totalPrice, ReservationStatus status)
         {
-            CLIENTID = clientId;
+            USERID = clientId;
             STARTDATE = startDate;
             ENDDATE = endDate;
             TOTALPRICE = totalPrice;
