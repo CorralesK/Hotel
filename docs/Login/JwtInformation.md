@@ -6,7 +6,6 @@ Para configurar JWT en tu proyecto .NET 8, sigue los siguientes pasos:
 
 1. Agrega el paquete `System.IdentityModel.Tokens.Jwt`:
 2. Agrega el paquete `Microsoft.AspNetCore.Authentication.JwtBearer` (version 8.0.13):Estos paquetes son necesarios para manejar la autenticacion y generacion de tokens JWT.
-
 ## Instalacion de Paquetes para Pruebas
 
 Para realizar pruebas unitarias, instala los siguientes paquetes:
@@ -23,6 +22,7 @@ Para realizar pruebas unitarias, instala los siguientes paquetes:
   - dotnet add package `NUnit`
   - dotnet add package `Moq`
   - dotnet add package `NUnit3TestAdapter`
+  - dotnet add package Microsoft.NET.Test.Sdk
 
 Sigue estos pasos para configurar y probar JWT en tu proyecto .NET 8.
 
