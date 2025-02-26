@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Enums
 {
-    enum RoomType
+    public enum RoomType
     {
         SIMPLE,
         DOBLE,

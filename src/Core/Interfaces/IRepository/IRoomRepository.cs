@@ -4,7 +4,7 @@ using Hotel.src.Core.Enums;
 
 namespace Hotel.src.Core.Interfaces.IRepository
 {
-    interface IRoomRepository
+    public interface IRoomRepository
     {
         Room Add(Room room);
         IEnumerable<Room> GetAll();

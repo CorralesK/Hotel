@@ -50,11 +50,6 @@ namespace Hotel.src.Infrastructure.Data
         public DbSet<ReservationRoom> ReservationRooms { get; set; }
 
 
-        // Hola soy Kim, dejo estos comentarios para que entiendan
-        // Configuración de las relaciones y claves primarias
-        // Da error porque el ID de reservacion es de tipo log
-
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

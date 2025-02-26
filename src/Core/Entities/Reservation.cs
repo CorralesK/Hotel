@@ -12,7 +12,7 @@ using System.Reflection.Metadata;
 
 namespace Hotel.src.Core.Entities
 {
-    class Reservation
+    public class Reservation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Enums
 {
-    enum RoomStatus
+    public enum RoomStatus
     {
         DISPONIBLE,
         OCUPADO

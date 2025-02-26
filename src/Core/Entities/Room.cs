@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Hotel.src.Core.Entities
 {
     [Index(nameof(ROOMNUMBER), IsUnique = true)] // Unique_key
-    class Room
+    public class Room
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

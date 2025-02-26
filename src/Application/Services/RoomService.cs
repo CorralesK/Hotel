@@ -5,10 +5,14 @@ using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.Application.Services
 {
-    class RoomService
+    public class RoomService
     {
         private readonly IRoomRepository _roomRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoomService"/> class.
+        /// </summary>
+        /// <param name="roomRepository">The repository for room data operations.</param>
         public RoomService(IRoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
@@ -22,6 +26,7 @@ namespace Hotel.src.Application.Services
         /// <param name="pricePerNight">The price per night.</param>
         /// <param name="capacity">The room capacity.</param>
         /// <returns>The newly created room.</returns>
+        /// <exception cref="ArgumentException">Thrown when input parameters are invalid.</exception>
         public Room RegisterRoom(string roomNumber, RoomType type, double pricePerNight, int capacity)
         {
             if (string.IsNullOrWhiteSpace(roomNumber))
@@ -36,7 +41,15 @@ namespace Hotel.src.Application.Services
             return _roomRepository.Add(newRoom);
         }
 
-
+        /// <summary>
+        /// Searches for rooms based on criteria such as type, price range, and availability within a date range.
+        /// </summary>
+        /// <param name="type">The type of room (optional).</param>
+        /// <param name="minPrice">The minimum price per night (optional).</param>
+        /// <param name="maxPrice">The maximum price per night (optional).</param>
+        /// <param name="startDate">The start date for availability check (optional).</param>
+        /// <param name="endDate">The end date for availability check (optional).</param>
+        /// <returns>A collection of rooms that match the search criteria.</returns>
         public IEnumerable<Room> SearchRooms(RoomType? type, double? minPrice, double? maxPrice, DateTime? startDate = null, DateTime? endDate = null)
         {
             var rooms = _roomRepository.GetAll();
@@ -58,6 +71,12 @@ namespace Hotel.src.Application.Services
             return rooms;
         }
 
+        /// <summary>
+        /// Checks the availability of rooms within a specified date range.
+        /// </summary>
+        /// <param name="startDate">The start date for checking availability (optional).</param>
+        /// <param name="endDate">The end date for checking availability (optional).</param>
+        /// <returns>A collection of available rooms.</returns>
         public IEnumerable<Room> CheckAvailability(DateTime? startDate, DateTime? endDate)
         {
             var availableRooms = _roomRepository.GetByStatus(RoomStatus.DISPONIBLE);
