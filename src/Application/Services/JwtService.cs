@@ -52,7 +52,7 @@ namespace Hotel.src.Application.Services
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal.FindFirst(ClaimTypes.Role)?.Value; // 📌 Retorna el Rol
         }
-        public int GetUserIdFromToken(string token)
+        public string GetUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(SecretKey);
@@ -66,14 +66,7 @@ namespace Hotel.src.Application.Services
             };
 
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-            var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
-            {
-                throw new Exception("userid is empyt");
-            }
-
-            return Int32.Parse(userIdClaim.Value);
+            return principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }
 }
