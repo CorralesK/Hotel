@@ -7,6 +7,7 @@ using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using Hotel.src.Core.Enums;
 using System.IdentityModel.Tokens.Jwt;
+using Hotel.src.Core.Entities;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -24,21 +25,19 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
             Console.WriteLine("     SISTEMA DE RESERVAS DE HOTEL        ");
             Console.WriteLine("=========================================");
-            Console.WriteLine("\n1. Iniciar sesión\n2. Salir");
+            Console.WriteLine("\n1. Iniciar sesión\ne. Salir");
             Console.Write("Seleccione una opción: ");
             string option = Console.ReadLine();
 
             switch (option)
             {
                 case "1":
-                    // Obtener el proveedor de servicios configurado en ServiceConfigurator.cs
+                  
                     var serviceProvider = ServiceConfigurator.ConfigureServices();
                     // Obtener el servicio de autenticación desde el contenedor DI 
                     var authService = serviceProvider.GetService<IAuthService>();
                     var jwtService = serviceProvider.GetService<JwtService>();
 
-
-                    // Simulación de autenticación
                     Console.Write("Email: ");
                     string email = Console.ReadLine();
                     Console.Write("Password: ");
@@ -49,15 +48,17 @@ namespace Hotel.src.ConsoleUI
 
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
                     {
-                       
-                        Admin admin = new Admin(new RoomService(new RoomRepository(new ApplicationDbContext())));
+                        var admin = serviceProvider.GetRequiredService<Admin>();
                         admin.ShowMenu();
-
+                    }
+                    else if (Enum.Parse<RoleUser>(role) == RoleUser.User)
+                    {
+                        var customer = serviceProvider.GetRequiredService<Customer>();
+                        customer.ShowMenu();
                     }
 
-
                     break;
-                case "2":
+                case "e":
                     Console.WriteLine("Saliendo del sistema...\n");
                     Environment.Exit(0);
                     break;

@@ -9,6 +9,8 @@ using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Core.Interfaces.IServices;
 using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Infrastructure.Data;
+using Hotel.src.ConsoleUI;
+using Hotel.src.Core.Entities;
 
 namespace Hotel
 {
@@ -17,10 +19,17 @@ namespace Hotel
         public static ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
-                .AddSingleton<ApplicationDbContext>()  // Instancia única de la BD
-                .AddScoped<IUserRepository, UserRepository>() // Se instancia por cada solicitud
-                .AddScoped<IAuthService, AuthService>() // Servicio de autenticación
-                .AddSingleton<JwtService>() // Servicio JWT (puede ser singleton si no almacena estado)
+                .AddSingleton<ApplicationDbContext>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IAuthService, AuthService>()
+                .AddSingleton<JwtService>()
+                .AddScoped<ICustomerRepository, CustomerRepository>()
+                .AddScoped<IRegisterServices, CustomerServices>()
+                .AddScoped<IReservationRepository, ReservationRepository>()
+                .AddScoped<IRoomRepository, RoomRepository>()
+                .AddSingleton<RoomService>()
+                .AddScoped<Admin>()  // Registrar Admin
+                .AddScoped<Customer>()   // Registrar User
                 .BuildServiceProvider();
         }
 
