@@ -38,6 +38,8 @@ namespace Hotel.src.ConsoleUI
                 case "2":
                     break;
                 case "3":
+
+                    _reservationMenu.GetToken(userID);
                     _reservationMenu.ShowReservationMenu();
                     break;
                 case "4":

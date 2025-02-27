@@ -4,6 +4,7 @@ using Hotel.src.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,13 +14,11 @@ namespace Hotel.src.ConsoleUI
     {
         private readonly ReservationService _reservationService;
         private readonly RoomService _roomService;
-        private readonly JwtService _jwtService;
         private readonly Customer _customerMenu;
 
-        public ReservationMenu(ReservationService reservationService, JwtService jwtService, RoomService roomService)
+        public ReservationMenu(ReservationService reservationService, RoomService roomService)
         {
             _reservationService = reservationService;
-            _jwtService = jwtService;
             _roomService = roomService;
         }
 
@@ -45,7 +44,7 @@ namespace Hotel.src.ConsoleUI
                     //CancelRoomInReservation();
                     break;
                 case "3":
-                   // GetReservationsByClientId();
+                    //ShowReservationsHistory();
                     break;
                 case "4":
                     _customerMenu.ShowMenu();
@@ -57,6 +56,10 @@ namespace Hotel.src.ConsoleUI
                     break;
             }
         }
+        public int GetToken(int userdID)
+        {
+            return userdID;
+        }
         private void RegisterReservation()
         {
             Console.Clear();
@@ -66,16 +69,15 @@ namespace Hotel.src.ConsoleUI
 
             // Obtener ID del cliente
 
-            int clientId = 0; //_jwtService.GetUserIdFromToken(token);
+            /*int clientId = _jwtService.GetUserIdFromToken(token);
             
-            // Obtener fecha de inicio
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;
             while (!DateTime.TryParse(Console.ReadLine(), out startDate))
             {
                 Console.Write("Fecha inválida. Intente de nuevo (DD/MM/YYYY): ");
             }
-            // Obtener fecha de fin
+
             Console.Write("Ingrese la fecha de fin (DD/MM/YYYY): ");
             DateTime endDate;
             while (!DateTime.TryParse(Console.ReadLine(), out endDate) || endDate <= startDate)
@@ -84,7 +86,6 @@ namespace Hotel.src.ConsoleUI
             }
             
             // Crear la reserva
-            
             Reservation reservation = new Reservation(clientId, startDate, endDate, 0, ReservationStatus.Confirmada);
             // Obtener habitaciones disponibles
             var availableRooms = _roomService.CheckAvailability(startDate, endDate);
@@ -119,7 +120,7 @@ namespace Hotel.src.ConsoleUI
 
                 // Aquí deberíamos verificar que la habitación existe y está disponible
 
-                /*
+                
                 var room = _roomService.GetRoomById(roomNumber);
 
                 if (room == null)
@@ -143,7 +144,7 @@ namespace Hotel.src.ConsoleUI
                 string response = Console.ReadLine().ToUpper();
 
                 addMoreRooms = (response == "S");
-                */
+                
             }
             // Verificar si se añadieron habitaciones
             if (reservation.ReservationRooms.Count == 0)
@@ -164,6 +165,65 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowReservationMenu();
         }
+        private void CancelRoomInReservation()
+        {
+            Console.Clear();
+            Console.WriteLine("=========================================");
+            Console.WriteLine("    CANCELAR HABITACIÓN EN RESERVA       ");
+            Console.WriteLine("=========================================");
+
+           // int clientId = _jwtService.GetClientIdFromToken();
+
+            // Obtener las reservas del cliente
+            var reservations = _reservationService.GetReservationsByClientId(clientId);
+
+            if (reservations.Count == 0)
+            {
+                Console.WriteLine("\nNo tiene reservas activas.");
+                Console.WriteLine("Presione cualquier tecla para continuar...");
+                Console.ReadKey();
+                ShowReservationMenu();
+                return;
+            }
+
+            // Mostrar solo las reservas activas
+            var activeReservations = reservations.Where(r => r.STATUS == ReservationStatus.Confirmada).ToList();
+
+            if (activeReservations.Count == 0)
+            {
+                Console.WriteLine("\nNo tiene reservas activas que pueda modificar.");
+                Console.WriteLine("Presione cualquier tecla para continuar...");
+                Console.ReadKey();
+                ShowReservationMenu();
+                return;
+            }
+
+            Console.WriteLine("\nSus reservas activas:");
+            Console.WriteLine("----------------------");
+            foreach (var reservation in activeReservations)
+            {
+                Console.WriteLine($"Reserva |Desde: {reservation.STARTDATE.ToShortDateString()} | Hasta: {reservation.ENDDATE.ToShortDateString()} | Precio: ${reservation.TOTALPRICE}");
+            }
+
+            // Seleccionar reserva
+           
+
+            // Verificar que la reserva pertenece al cliente
+           
+
+            // Mostrar las habitaciones de la reserva
+            
+
+            // Seleccionar habitación a cancelar
+           
+
+            // Verificar que la habitación está en la reserva
+            
+
+            // Confirmar cancelación
+            
+            ShowReservationMenu();
+        }
         private void ShowReservationsHistory()
         {
             Console.Clear();
@@ -171,7 +231,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("         HISTORIAL DE RESERVAS          ");
             Console.WriteLine("=========================================");
 
-           // int clientId = _jwtService.GetClientIdFromToken();
+           int clientId = _jwtService.GetUserIdFromToken();
 
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);
@@ -202,6 +262,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\nPresione cualquier tecla para continuar...");
             Console.ReadKey();
             ShowReservationMenu();
+            */
         }
 
     }
