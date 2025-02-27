@@ -10,6 +10,7 @@ using Sprache;
 using System.Data;
 using Moq;
 using System.Numerics;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -115,18 +116,13 @@ namespace Hotel.src.ConsoleUI
             user.PASSWORD = ReadLines();
             PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 0 - Cliente): ");
             string role = ReadLines();
-            if (role == "0" || role == "1")
-            {
-                user.ROLE = role == "1" ? RoleUser.Admin : RoleUser.User;
-            }
+            bool esRolValido = role == "1" || role == "0";
+            if (esRolValido)
+                user.ROLE = Enum.Parse<RoleUser>(role);
             else
-            {
-                Console.WriteLine("Opción inválida. Intente de nuevo.");
-                Console.ReadKey();
                 ShowMenu();
-                return;
-            }
-           
+
+
             Console.WriteLine(user.ROLE);
             UserValidator validator = new UserValidator();
             ValidationResult result = validator.Validate(user);
