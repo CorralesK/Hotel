@@ -186,7 +186,6 @@ namespace Hotel.src.ConsoleUI
                 foreach (var reservation in reservations)
                 {
                     Console.WriteLine("\n-----------------------------------------");
-                    Console.WriteLine($"ID Reserva: {reservation.ID}");
                     Console.WriteLine($"Fecha inicio: {reservation.STARTDATE.ToShortDateString()}");
                     Console.WriteLine($"Fecha fin: {reservation.ENDDATE.ToShortDateString()}");
                     Console.WriteLine($"Precio total: ${reservation.TOTALPRICE}");
@@ -195,7 +194,7 @@ namespace Hotel.src.ConsoleUI
                     Console.WriteLine("\nHabitaciones:");
                     foreach (var roomReservation in reservation.ReservationRooms)
                     {
-                        Console.WriteLine($"- ID: {roomReservation.RoomID} | Tipo: {roomReservation.Room.TYPE} | Precio: ${roomReservation.Room.PRICEPERNIGHT}/noche");
+                        Console.WriteLine($"- Número de habitación: {roomReservation.Room.ROOMNUMBER} | Tipo: {roomReservation.Room.TYPE} | Precio: ${roomReservation.Room.PRICEPERNIGHT}/noche");
                     }
                 }
             }
