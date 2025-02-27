@@ -1,10 +1,13 @@
 ﻿using Hotel.src.Application.Services;
+using Hotel.src.ConsoleUI.schemas;
+using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hotel.src.Core.Interfaces.IServices;
+using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
+using FluentValidation.Results;
+using Sprache;
+using System.Data;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -33,9 +36,10 @@ namespace Hotel.src.ConsoleUI
             switch (option)
             {
                 case "1":
-                    RegisterRoom();
+                    RegisterCustumer();
                     break;
                 case "2":
+                    RegisterRoom();
                     break;
                 case "3":
                     break;
@@ -92,6 +96,73 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
+
+        public void RegisterCustumer()
+        {
+            Console.Clear();
+            GenerateHeader("REGISTRO DE CLIENTE");
+            var serviceProvider = ServiceConfigurator.ConfigureServices();
+            var registerService = serviceProvider.GetRequiredService<IRegisterServices>();
+            User user = new User();
+            
+            PrintLine("Ingrese el nombre del cliente: ");
+            user.NAME = ReadLines();
+            PrintLine("Ingrese el correo electrónica del cliente: ");
+            user.EMAIL = ReadLines();
+            PrintLine("Ingrese la contraseña del cliente: ");
+            user.PASSWORD = ReadLines();
+            PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 2 - Cliente): ");
+            string role = ReadLines();
+            
+            UserValidator validator = new UserValidator();
+            ValidationResult result = validator.Validate(user);
+
+            // Verificar si el objeto es válido o no
+            if (result.IsValid)
+            {
+                Console.WriteLine("El usuario es válido.");
+            }
+            else
+            {
+                Console.WriteLine("Errores de validación:");
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"- {error.ErrorMessage}");
+                }
+            }
+
+
+            // registerService.RegisterCustomer(user);
+            //Console.ReadKey();
+           // ShowMenu();
+        }
+
+        public  void GenerateHeader(string title)
+        {   
+            Console.WriteLine(new string('=', 40));
+            Console.WriteLine("\t"+title+"\t");
+            Console.WriteLine(new string('=', 40));
+        }
+        public void CheckType(string text)
+        {
+            RoleUser role;
+            if (int.TryParse(text, out int num) && (num == 1 || num == 0))
+            {
+                role = (RoleUser)num;  
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida. Debe ingresar 1 para Administrador o 0 para Cliente.");
+            }
+        }
+        public void PrintLine(string message)
+        {
+            Console.WriteLine(message);
+        }
+        public string ReadLines() => Console.ReadLine();
+
+        
+
     }
 
 }
