@@ -36,10 +36,11 @@ namespace Hotel.src.ConsoleUI
             switch (option)
             {
                 case "1":
-                    RegisterCustumer();
+                    RegisterRoom();
                     break;
                 case "2":
-                    RegisterRoom();
+                    Console.WriteLine("Registrar Cliente");
+                    RegisterCustumer();
                     break;
                 case "3":
                     break;
@@ -97,7 +98,7 @@ namespace Hotel.src.ConsoleUI
             ShowMenu();
         }
 
-        public void RegisterCustumer()
+        private void RegisterCustumer()
         {
             Console.Clear();
             GenerateHeader("REGISTRO DE CLIENTE");
@@ -113,7 +114,8 @@ namespace Hotel.src.ConsoleUI
             user.PASSWORD = ReadLines();
             PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 2 - Cliente): ");
             string role = ReadLines();
-            
+            user.ROLE = Enum.Parse<RoleUser>(role);
+
             UserValidator validator = new UserValidator();
             ValidationResult result = validator.Validate(user);
 
@@ -137,24 +139,13 @@ namespace Hotel.src.ConsoleUI
            // ShowMenu();
         }
 
-        public  void GenerateHeader(string title)
+        public void GenerateHeader(string title)
         {   
             Console.WriteLine(new string('=', 40));
             Console.WriteLine("\t"+title+"\t");
             Console.WriteLine(new string('=', 40));
         }
-        public void CheckType(string text)
-        {
-            RoleUser role;
-            if (int.TryParse(text, out int num) && (num == 1 || num == 0))
-            {
-                role = (RoleUser)num;  
-            }
-            else
-            {
-                Console.WriteLine("Entrada inválida. Debe ingresar 1 para Administrador o 0 para Cliente.");
-            }
-        }
+      
         public void PrintLine(string message)
         {
             Console.WriteLine(message);
