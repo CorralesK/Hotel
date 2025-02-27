@@ -164,7 +164,46 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowReservationMenu();
         }
+        private void ShowReservationsHistory()
+        {
+            Console.Clear();
+            Console.WriteLine("=========================================");
+            Console.WriteLine("         HISTORIAL DE RESERVAS          ");
+            Console.WriteLine("=========================================");
 
+           // int clientId = _jwtService.GetClientIdFromToken();
+
+            // Obtener las reservas del cliente
+            var reservations = _reservationService.GetReservationsByClientId(clientId);
+
+            if (reservations.Count == 0)
+            {
+                Console.WriteLine("\nNo tiene reservas registradas.");
+            }
+            else
+            {
+                Console.WriteLine($"\nSe encontraron {reservations.Count} reservas:");
+                foreach (var reservation in reservations)
+                {
+                    Console.WriteLine("\n-----------------------------------------");
+                    Console.WriteLine($"ID Reserva: {reservation.ID}");
+                    Console.WriteLine($"Fecha inicio: {reservation.STARTDATE.ToShortDateString()}");
+                    Console.WriteLine($"Fecha fin: {reservation.ENDDATE.ToShortDateString()}");
+                    Console.WriteLine($"Precio total: ${reservation.TOTALPRICE}");
+                    Console.WriteLine($"Estado: {reservation.STATUS}");
+
+                    Console.WriteLine("\nHabitaciones:");
+                    foreach (var roomReservation in reservation.ReservationRooms)
+                    {
+                        Console.WriteLine($"- ID: {roomReservation.RoomID} | Tipo: {roomReservation.Room.TYPE} | Precio: ${roomReservation.Room.PRICEPERNIGHT}/noche");
+                    }
+                }
+            }
+
+            Console.WriteLine("\nPresione cualquier tecla para continuar...");
+            Console.ReadKey();
+            ShowReservationMenu();
+        }
 
     }
 }
