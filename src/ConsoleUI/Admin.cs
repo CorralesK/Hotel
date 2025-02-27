@@ -8,6 +8,8 @@ using FluentValidation;
 using FluentValidation.Results;
 using Sprache;
 using System.Data;
+using Moq;
+using System.Numerics;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -39,7 +41,6 @@ namespace Hotel.src.ConsoleUI
                     RegisterRoom();
                     break;
                 case "2":
-                    Console.WriteLine("Registrar Cliente");
                     RegisterCustumer();
                     break;
                 case "3":
@@ -112,10 +113,21 @@ namespace Hotel.src.ConsoleUI
             user.EMAIL = ReadLines();
             PrintLine("Ingrese la contraseña del cliente: ");
             user.PASSWORD = ReadLines();
-            PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 2 - Cliente): ");
+            PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 0 - Cliente): ");
             string role = ReadLines();
-            user.ROLE = Enum.Parse<RoleUser>(role);
-
+            if (role == "0" || role == "1")
+            {
+                user.ROLE = role == "1" ? RoleUser.Admin : RoleUser.User;
+            }
+            else
+            {
+                Console.WriteLine("Opción inválida. Intente de nuevo.");
+                Console.ReadKey();
+                ShowMenu();
+                return;
+            }
+           
+            Console.WriteLine(user.ROLE);
             UserValidator validator = new UserValidator();
             ValidationResult result = validator.Validate(user);
 
