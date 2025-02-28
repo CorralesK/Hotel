@@ -11,6 +11,9 @@ using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Infrastructure.Data;
 using Hotel.src.ConsoleUI;
 using Hotel.src.Core.Entities;
+using Hotel.src.Application.Services.Jobs;
+using Hotel.src.Application;
+using Hotel.src.Core.Interfaces;
 
 namespace Hotel
 {
@@ -29,10 +32,12 @@ namespace Hotel
                 .AddScoped<IRoomRepository, RoomRepository>()
                 .AddScoped<IInvoiceRepository, InvoiceRepository>()
                 .AddScoped<IBillingService, BillingService>()
-                .AddScoped<IReservationRepository, ReservationRepository>()
                 .AddSingleton<RoomService>()
                 .AddScoped<Admin>()  // Registrar Admin
                 .AddScoped<Customer>()   // Registrar User
+                .AddScoped<INotificationSender, EmailNotificationSender>()
+                .AddScoped<INotificationService, NotificationService>()
+                .AddScoped<CheckInNotificationJob>()
                 .AddScoped<ReservationMenu>()
                 .AddScoped<ReservationService>()
                 .BuildServiceProvider();
