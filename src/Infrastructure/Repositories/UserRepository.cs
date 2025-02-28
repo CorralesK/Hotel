@@ -29,7 +29,7 @@ namespace Hotel.src.Infrastructure.Repositories
             }
             else
             {
-                Console.WriteLine($"✅ Usuario encontrado: ID={user.ID}, Email={user.EMAIL}");
+                Console.WriteLine($"✅ Usuario encontrado: {user.NAME}");
             }
 
             return user;

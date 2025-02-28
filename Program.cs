@@ -32,9 +32,8 @@ namespace Hotel.src.ConsoleUI
             switch (option)
             {
                 case "1":
-                  
+
                     var serviceProvider = ServiceConfigurator.ConfigureServices();
-                    // Obtener el servicio de autenticación desde el contenedor DI 
                     var authService = serviceProvider.GetService<IAuthService>();
                     var jwtService = serviceProvider.GetService<JwtService>();
 
@@ -45,7 +44,11 @@ namespace Hotel.src.ConsoleUI
 
                     string token = authService.Authenticate(email, password);
                     string role = jwtService.GetRoleFromToken(token);
+                    int userid = jwtService.GetUserIdFromToken(token);
 
+                    Console.WriteLine(userid);
+
+                    /*
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
                     {
                         var admin = serviceProvider.GetRequiredService<Admin>();
@@ -56,7 +59,7 @@ namespace Hotel.src.ConsoleUI
                         var customer = serviceProvider.GetRequiredService<Customer>();
                         customer.ShowMenu();
                     }
-
+                    */
                     break;
                 case "e":
                     Console.WriteLine("Saliendo del sistema...\n");

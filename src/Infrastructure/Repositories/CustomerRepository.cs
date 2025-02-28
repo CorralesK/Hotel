@@ -20,6 +20,7 @@ namespace Hotel.src.Infrastructure.Repositories
 
         public User AddCliente(User user)
         {
+
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
             return user;
