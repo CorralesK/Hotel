@@ -23,7 +23,7 @@ namespace Hotel.src.Application.Services
         public void RegisterReservation(int clientId, DateTime startDate, DateTime endDate)
         {
             var reservation = new Reservation(clientId, startDate, endDate, 0, ReservationStatus.Confirmada);
-            reservation.CalculateTotalPrice();
+            reservation.TOTALPRICE = reservation.CalculateTotalPrice();
             _reservationRepository.Add(reservation);
         }
         

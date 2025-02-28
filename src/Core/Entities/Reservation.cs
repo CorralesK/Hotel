@@ -45,7 +45,7 @@ namespace Hotel.src.Core.Entities
         }
 
         
-        public void CalculateTotalPrice()
+        public double CalculateTotalPrice()
         {
             TOTALPRICE = 0;
             foreach (var reservationRoom in ReservationRooms)
@@ -55,6 +55,7 @@ namespace Hotel.src.Core.Entities
                 // Sumar el precio de cada habitación multiplicado por los días
                 TOTALPRICE += reservationRoom.Room.PRICEPERNIGHT * days;
             }
+            return TOTALPRICE;
         }
     }
  }

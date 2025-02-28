@@ -15,9 +15,10 @@ namespace Hotel.src.ConsoleUI
         private readonly ReservationMenu _reservationMenu;
         public User user;
 
-        public Customer(RoomService roomService)
+        public Customer(RoomService roomService, ReservationMenu reservationMenu)
         {
             _roomService = roomService;
+            _reservationMenu = reservationMenu;
         }
 
         public void ShowMenu()

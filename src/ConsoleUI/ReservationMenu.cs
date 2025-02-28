@@ -48,7 +48,7 @@ namespace Hotel.src.ConsoleUI
                     ShowReservationsHistory();
                     break;
                 case "4":
-                    _customerMenu.ShowMenu();
+                    Program.ShowStartScreen();
                     break;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
@@ -68,6 +68,7 @@ namespace Hotel.src.ConsoleUI
             // Obtener ID del cliente
             user = new User();
             int clientId = user.ID;
+            Console.WriteLine($"ID del cliente: {clientId}");
             
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;

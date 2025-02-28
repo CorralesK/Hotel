@@ -27,9 +27,14 @@ namespace Hotel
                 .AddScoped<IRegisterServices, CustomerServices>()
                 .AddScoped<IReservationRepository, ReservationRepository>()
                 .AddScoped<IRoomRepository, RoomRepository>()
+                .AddScoped<IInvoiceRepository, InvoiceRepository>()
+                .AddScoped<IBillingService, BillingService>()
+                .AddScoped<IReservationRepository, ReservationRepository>()
                 .AddSingleton<RoomService>()
                 .AddScoped<Admin>()  // Registrar Admin
                 .AddScoped<Customer>()   // Registrar User
+                .AddScoped<ReservationMenu>()
+                .AddScoped<ReservationService>()
                 .BuildServiceProvider();
         }
 

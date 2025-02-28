@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Hotel.src.Core.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using Hotel.src.Core.Entities;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -19,6 +20,7 @@ namespace Hotel.src.ConsoleUI
             ShowStartScreen();
         }
 
+        public static int UserId;
         public static void ShowStartScreen()
         {
             Console.Clear();
@@ -45,7 +47,7 @@ namespace Hotel.src.ConsoleUI
                   
                     string token = authService.Authenticate(email, password);
                     string role = jwtService.GetRoleFromToken(token);
-                    user.ID = jwtService.GetUserIdFromToken(token);
+                    UserId = jwtService.GetUserIdFromToken(token);
 
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
                     {
