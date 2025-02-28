@@ -11,5 +11,6 @@ namespace Hotel.src.Core.Interfaces.IRepository
     public interface IUserRepository
     {
         User GetUserByEmailAndRole(string email, string password);
+        User GetById(int id);
     }
 }
