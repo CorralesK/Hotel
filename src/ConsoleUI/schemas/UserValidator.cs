@@ -21,10 +21,7 @@ namespace Hotel.src.ConsoleUI.schemas
                 .MinimumLength(5).WithMessage("La contraseña debe tener al menos 5 caracteres");
 
             RuleFor(u => u.ROLE)
-                .NotEmpty().WithMessage("El rol es obligatorio")
                 .Must(BeAValidRole).WithMessage("El rol no es valido");
-           
-
         }
 
         private bool BeAValidRole(RoleUser role) => role == RoleUser.Admin || role == RoleUser.User; 
