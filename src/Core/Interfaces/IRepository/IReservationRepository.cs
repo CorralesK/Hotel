@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Interfaces.IRepository
 {
-    interface IReservationRepository
+    public interface IReservationRepository
     {
         void Add(Reservation reservation);
         void Update(Reservation reservation);
