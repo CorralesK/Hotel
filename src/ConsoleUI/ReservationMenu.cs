@@ -66,10 +66,10 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
 
             // Obtener ID del cliente
-            user = new User();
-            int clientId = user.ID;
+            int clientId = SessionManager.UserId;
             Console.WriteLine($"ID del cliente: {clientId}");
-            
+
+
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;
             while (!DateTime.TryParse(Console.ReadLine(), out startDate))

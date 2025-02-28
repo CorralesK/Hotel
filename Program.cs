@@ -20,7 +20,6 @@ namespace Hotel.src.ConsoleUI
             ShowStartScreen();
         }
 
-        public static int UserId;
         public static void ShowStartScreen()
         {
             Console.Clear();
@@ -38,8 +37,7 @@ namespace Hotel.src.ConsoleUI
                     var serviceProvider = ServiceConfigurator.ConfigureServices();
                     var authService = serviceProvider.GetService<IAuthService>();
                     var jwtService = serviceProvider.GetService<JwtService>();
-                    var user = new User();
-                    
+                
                     Console.Write("Email: ");
                     string email = Console.ReadLine();
                     Console.Write("Password: ");
@@ -47,7 +45,7 @@ namespace Hotel.src.ConsoleUI
                   
                     string token = authService.Authenticate(email, password);
                     string role = jwtService.GetRoleFromToken(token);
-                    UserId = jwtService.GetUserIdFromToken(token);
+                    SessionManager.SetSession(token);
 
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
                     {
