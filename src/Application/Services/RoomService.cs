@@ -41,6 +41,11 @@ namespace Hotel.src.Application.Services
             return _roomRepository.Add(newRoom);
         }
 
+        public Room GetRoomById(int id)
+        {
+            return _roomRepository.GetById(id);
+        }
+
         /// <summary>
         /// Searches for rooms based on criteria such as type, price range, and availability within a date range.
         /// </summary>

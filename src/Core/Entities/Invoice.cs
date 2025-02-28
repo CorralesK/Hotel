@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Entities;
 
-class Invoice
+public class Invoice
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -11,6 +11,8 @@ using System.Data;
 using Moq;
 using System.Numerics;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Hotel.src.Infrastructure.Repositories;
+using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -32,7 +34,8 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\n1. Registrar habitación");
             Console.WriteLine("2. Registrar cliente");
             Console.WriteLine("3. Ver reportes");
-            Console.WriteLine("4. Salir");
+            Console.WriteLine("4. Generar factura");
+            Console.WriteLine("5. Salir");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -47,6 +50,9 @@ namespace Hotel.src.ConsoleUI
                 case "3":
                     break;
                 case "4":
+                    GenerateInvoice();
+                    break;
+                case "5":
                     Program.ShowStartScreen();
                     break;
                 default:
@@ -160,7 +166,38 @@ namespace Hotel.src.ConsoleUI
         }
         public string ReadLines() => Console.ReadLine();
 
-        
+        private void GenerateInvoice()
+        {
+            Console.Clear();
+            Console.Write("Ingrese el ID de la reserva: ");
+            int reservationId = int.Parse(Console.ReadLine());
+
+            try
+            {
+                var reservationRepository = new ReservationRepository();
+                var invoiceRepository = new InvoiceRepository();
+                var billingService = new BillingService(reservationRepository, invoiceRepository);
+
+                var invoice = billingService.GenerateInvoice(reservationId);
+
+                Console.WriteLine("\nFactura generada con éxito:");
+                Console.WriteLine($"ID: {invoice.ID}, Fecha: {invoice.DateIssued}, Total: {invoice.TotalAmount}");
+
+                Console.WriteLine("\nDetalles:");
+                foreach (var detail in invoice.InvoiceDetails)
+                {
+                    Console.WriteLine($"Habitación: {detail.RoomID}, Precio: {detail.Price}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            Console.ReadKey();
+            ShowMenu();
+        }
+
 
     }
 

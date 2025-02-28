@@ -15,6 +15,10 @@ namespace Hotel.src.Infrastructure.Repositories
         private readonly List<Reservation> _reservations = new List<Reservation>();
         private ApplicationDbContext applicationDbContext;
 
+        public ReservationRepository()
+        {
+
+        }
         public ReservationRepository(ApplicationDbContext applicationDbContext)
         {
             this.applicationDbContext = applicationDbContext;
