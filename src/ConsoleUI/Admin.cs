@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Core.Interfaces.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Hotel.src.Application.Services.Jobs;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -36,7 +37,8 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("2. Registrar cliente");
             Console.WriteLine("3. Ver reportes");
             Console.WriteLine("4. Generar factura");
-            Console.WriteLine("5. Salir");
+            Console.WriteLine("5. Ejecutar notificaciones de check-in");
+            Console.WriteLine("6. Salir");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -54,6 +56,11 @@ namespace Hotel.src.ConsoleUI
                     GenerateInvoice();
                     break;
                 case "5":
+                    var serviceProvider = ServiceConfigurator.ConfigureServices();
+                    var job = serviceProvider.GetRequiredService<CheckInNotificationJob>();
+                    job.Execute();
+                    break;
+                case "6":
                     Program.ShowStartScreen();
                     break;
                 default:
