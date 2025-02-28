@@ -42,10 +42,10 @@ namespace Hotel.src.ConsoleUI
                     RegisterReservation();
                     break;
                 case "2":
-                    //CancelRoomInReservation();
+                    CancelRoomInReservation();
                     break;
                 case "3":
-                    //ShowReservationsHistory();
+                    ShowReservationsHistory();
                     break;
                 case "4":
                     _customerMenu.ShowMenu();
