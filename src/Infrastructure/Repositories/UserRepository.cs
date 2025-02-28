@@ -34,21 +34,6 @@ namespace Hotel.src.Infrastructure.Repositories
 
             return user;
         }
-        public User GetById(int userId)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.ID == userId);
-
-            if (user == null)
-            {
-                Console.WriteLine($"⚠️ Usuario con ID {userId} no encontrado.");
-            }
-            else
-            {
-                Console.WriteLine($"✅ Usuario encontrado: {user.NAME}");
-            }
-
-            return user;
-        }
 
     }
 }
