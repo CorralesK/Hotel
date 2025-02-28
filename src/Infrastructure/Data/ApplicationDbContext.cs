@@ -47,6 +47,9 @@ namespace Hotel.src.Infrastructure.Data
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<ReservationRoom> ReservationRooms { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +71,20 @@ namespace Hotel.src.Infrastructure.Data
                 .HasOne(rr => rr.Room)
                 .WithMany(r => r.ReservationRooms)
                 .HasForeignKey(rr => rr.RoomID);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.STARTDATE)
+                .HasConversion(
+                    v => v.ToUniversalTime(),  // Almacenar en UTC
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)  // Leer como UTC
+                );
+
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.ENDDATE)
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                );
 
         }
        

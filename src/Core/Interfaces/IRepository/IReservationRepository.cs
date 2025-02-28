@@ -9,7 +9,7 @@ namespace Hotel.src.Core.Interfaces.IRepository
 {
     public interface IReservationRepository
     {
-        void Add(Reservation reservation);
+        Reservation Add(Reservation reservation);
         void Update(Reservation reservation);
         Reservation GetById(int id);
         List<Reservation> GetByClientId(int clientId);

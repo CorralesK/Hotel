@@ -83,9 +83,14 @@ namespace Hotel.src.ConsoleUI
             {
                 Console.Write("Fecha inválida o anterior a la fecha de inicio. Intente de nuevo (DD/MM/YYYY): ");
             }
-            
+
             // Crear la reserva
-            Reservation reservation = new Reservation(clientId, startDate, endDate, 0, ReservationStatus.Confirmada);
+            Reservation reservation = new Reservation();
+            reservation.USERID = clientId;
+            reservation.STARTDATE = startDate;
+            reservation.ENDDATE = endDate;
+            reservation.STATUS = ReservationStatus.Confirmada;
+
             // Obtener habitaciones disponibles
             var availableRooms = _roomService.CheckAvailability(startDate, endDate);
 

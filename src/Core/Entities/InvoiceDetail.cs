@@ -12,10 +12,10 @@ namespace Hotel.src.Core.Entities
     public class InvoiceDetail
     {
         [Key]
-        public long ID { get; set; }
+        public int ID { get; set; }
 
         [ForeignKey("Invoice")]
-        public long InvoiceID { get; set; }
+        public int InvoiceID { get; set; }
         public Invoice Invoice { get; set; }
 
         [ForeignKey("Room")]
@@ -23,7 +23,7 @@ namespace Hotel.src.Core.Entities
         public Room Room { get; set; }
         
         [ForeignKey("Reservation")]
-        public long ReservationID { get; set; }
+        public int ReservationID { get; set; }
         public Reservation Reservation { get; set; }
 
         [Required]

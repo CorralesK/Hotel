@@ -25,7 +25,7 @@ namespace Hotel.src.Core.Entities
         [Required]
         public DateTime ENDDATE { get; set; }
         [Required]
-        public double TOTALPRICE {get; set; }
+        public double TOTALPRICE { get; set; }
         [Required]
         public ReservationStatus STATUS { get; set; }
         public User User { get; init; }
@@ -33,18 +33,16 @@ namespace Hotel.src.Core.Entities
         public ICollection<ReservationRoom> ReservationRooms { get; set; } = new List<ReservationRoom>();
         public Reservation()
         {
-            
+
         }
-        public Reservation(int clientId, DateTime startDate, DateTime endDate, float totalPrice, ReservationStatus status)
+        public Reservation(int clientId, DateTime startDate, DateTime endDate, ReservationStatus status)
         {
             USERID = clientId;
             STARTDATE = startDate;
             ENDDATE = endDate;
-            TOTALPRICE = totalPrice;
             STATUS = status;
         }
 
-        
         public double CalculateTotalPrice()
         {
             TOTALPRICE = 0;
@@ -58,4 +56,5 @@ namespace Hotel.src.Core.Entities
             return TOTALPRICE;
         }
     }
- }
+
+}
