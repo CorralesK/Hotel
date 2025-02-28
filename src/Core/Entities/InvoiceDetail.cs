@@ -9,7 +9,7 @@ using Hotel.src.Core.Entities;
 
 namespace Hotel.src.Core.Entities
 {
-    class InvoiceDetail
+    public class InvoiceDetail
     {
         [Key]
         public long ID { get; set; }

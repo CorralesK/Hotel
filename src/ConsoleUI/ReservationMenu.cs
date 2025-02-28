@@ -15,6 +15,7 @@ namespace Hotel.src.ConsoleUI
         private readonly ReservationService _reservationService;
         private readonly RoomService _roomService;
         private readonly Customer _customerMenu;
+        public User user;
 
         public ReservationMenu(ReservationService reservationService, RoomService roomService)
         {
@@ -56,10 +57,7 @@ namespace Hotel.src.ConsoleUI
                     break;
             }
         }
-        public int GetToken(int userdID)
-        {
-            return userdID;
-        }
+       
         private void RegisterReservation()
         {
             Console.Clear();
@@ -68,8 +66,8 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
 
             // Obtener ID del cliente
-
-            /*int clientId = _jwtService.GetUserIdFromToken(token);
+            user = new User();
+            int clientId = user.ID;
             
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;
@@ -262,7 +260,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\nPresione cualquier tecla para continuar...");
             Console.ReadKey();
             ShowReservationMenu();
-            */
+            
         }
 
     }

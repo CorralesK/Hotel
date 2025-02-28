@@ -70,7 +70,7 @@ namespace Hotel.src.Application.Services
             int userId = int.Parse(userIdClaim.Value);
             foreach (var claim in jsonToken.Claims)
             {
-                Console.WriteLine($"➡ {claim.Type}: {claim.Value}");
+                //Console.WriteLine($"➡ {claim.Type}: {claim.Value}");
             }
 
             return userId;

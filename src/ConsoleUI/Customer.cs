@@ -1,4 +1,5 @@
 ﻿using Hotel.src.Application.Services;
+using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Hotel.src.ConsoleUI
     {
         private readonly RoomService _roomService;
         private readonly ReservationMenu _reservationMenu;
+        public User user;
 
         public Customer(RoomService roomService)
         {
@@ -38,8 +40,7 @@ namespace Hotel.src.ConsoleUI
                 case "2":
                     break;
                 case "3":
-
-                    _reservationMenu.GetToken(userID);
+                    
                     _reservationMenu.ShowReservationMenu();
                     break;
                 case "4":
