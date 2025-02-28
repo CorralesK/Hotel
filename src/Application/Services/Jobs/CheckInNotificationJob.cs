@@ -40,7 +40,7 @@ namespace Hotel.src.Application.Services.Jobs
             foreach (var reservation in upcomingReservations)
             {
                 // Obtener información del usuario
-                User user = _userRepository.GetById(reservation.USERID);
+                User user = reservation.User;
 
                 if (user != null && !string.IsNullOrEmpty(user.EMAIL))
                 {
