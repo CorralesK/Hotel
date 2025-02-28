@@ -4,7 +4,7 @@ using dotenv.net;
 
 namespace Hotel.src.Infrastructure.Data
 {
-    class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         /// <summary>
         /// Configures the database connection using the connection string stored in the DATABASE_URL environment variable.
@@ -36,7 +36,7 @@ namespace Hotel.src.Infrastructure.Data
         /// <value>
         /// A DbSet of User entities.
         /// </value>
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         /// <summary>
         /// Gets or sets the Rooms DbSet which represents the collection of all Room entities in the context.
@@ -45,9 +45,9 @@ namespace Hotel.src.Infrastructure.Data
         /// A DbSet of Room entities.
         /// </value>
         
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<ReservationRoom> ReservationRooms { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<ReservationRoom> ReservationRooms { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

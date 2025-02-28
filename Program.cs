@@ -37,12 +37,12 @@ namespace Hotel.src.ConsoleUI
                     var authService = serviceProvider.GetService<IAuthService>();
                     var jwtService = serviceProvider.GetService<JwtService>();
                     var user = new User();
-
+                    
                     Console.Write("Email: ");
                     string email = Console.ReadLine();
                     Console.Write("Password: ");
                     string password = Console.ReadLine();
-
+                  
                     string token = authService.Authenticate(email, password);
                     string role = jwtService.GetRoleFromToken(token);
                     user.ID = jwtService.GetUserIdFromToken(token);

@@ -9,7 +9,7 @@ using Hotel.src.Infrastructure.Data;
 
 namespace Hotel.src.Infrastructure.Repositories
 {
-    class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
