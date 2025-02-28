@@ -2,6 +2,7 @@
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,16 @@ namespace Hotel.src.Infrastructure.Repositories
         public List<Reservation> GetByDateRange(DateTime startDate, DateTime endDate)
         {
             return _reservations.Where(r => r.STARTDATE >= startDate && r.ENDDATE <= endDate).ToList();
+        }
+        public List<Reservation> GetUpcomingReservations(int daysAhead)
+        {
+            DateTime targetDate = DateTime.UtcNow.Date.AddDays(daysAhead);
+
+            return applicationDbContext.Reservations
+                .Include(r => r.ReservationRooms)
+                .ThenInclude(rr => rr.Room)
+                .Where(r => r.STARTDATE.Date <= targetDate)
+                .ToList();
         }
     }
 }
