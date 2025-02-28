@@ -123,11 +123,7 @@ namespace Hotel.src.ConsoleUI
             user.PASSWORD = ReadLines();
             PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 0 - Cliente): ");
             string role = ReadLines();
-            if (Enum.TryParse(role, out RoleUser userRole))
-            {
-                user.ROLE = userRole;
-            }
-            Console.WriteLine(user.ROLE);
+            user.ROLE = Enum.Parse<RoleUser>(role);
 
 
             UserValidator validator = new UserValidator();
