@@ -59,10 +59,12 @@ namespace Hotel.src.Infrastructure.Repositories
             DateTime targetDate = DateTime.UtcNow.Date.AddDays(daysAhead);
 
             return _context.Reservations
+                .Include(r => r.User)
                 .Include(r => r.ReservationRooms)
                 .ThenInclude(rr => rr.Room)
                 .Where(r => r.STARTDATE.Date <= targetDate)
                 .ToList();
         }
+
     }
 }
