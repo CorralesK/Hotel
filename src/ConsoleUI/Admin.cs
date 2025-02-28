@@ -13,6 +13,7 @@ using System.Numerics;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Core.Interfaces.IRepository;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -122,7 +123,7 @@ namespace Hotel.src.ConsoleUI
             user.PASSWORD = ReadLines();
             PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 0 - Cliente): ");
             string role = ReadLines();
-            bool esRolValido = role == "1" || role == "0";
+            bool esRolValido = Enum.Parse<RoleUser>(role) == RoleUser.Admin ||  Enum.Parse<RoleUser>(role) == RoleUser.User;
             if (esRolValido)
                 user.ROLE = Enum.Parse<RoleUser>(role);
             else
