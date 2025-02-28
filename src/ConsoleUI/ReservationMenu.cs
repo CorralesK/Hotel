@@ -170,8 +170,9 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("    CANCELAR HABITACIÓN EN RESERVA       ");
             Console.WriteLine("=========================================");
 
-           // int clientId = _jwtService.GetClientIdFromToken();
-
+            // Obtener ID del cliente
+            user = new User();
+            int clientId = user.ID;
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);
 
@@ -229,7 +230,9 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("         HISTORIAL DE RESERVAS          ");
             Console.WriteLine("=========================================");
 
-           int clientId = _jwtService.GetUserIdFromToken();
+            // Obtener ID del cliente
+            user = new User();
+            int clientId = user.ID;
 
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);
