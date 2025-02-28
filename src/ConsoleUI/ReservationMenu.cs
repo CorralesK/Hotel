@@ -167,12 +167,11 @@ namespace Hotel.src.ConsoleUI
         {
             Console.Clear();
             Console.WriteLine("=========================================");
-            Console.WriteLine("    CANCELAR HABITACIÓN EN RESERVA       ");
+            Console.WriteLine("    CANCELAR HABITACIÓN EN RESERVA       ");
             Console.WriteLine("=========================================");
-
-            // Obtener ID del cliente
             user = new User();
             int clientId = user.ID;
+
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);
 
@@ -186,7 +185,7 @@ namespace Hotel.src.ConsoleUI
             }
 
             // Mostrar solo las reservas activas
-            var activeReservations = reservations.Where(r => r.STATUS == ReservationStatus.Confirmada).ToList();
+            var activeReservations = _reservationService.GetActiveReservationsByClientId(clientId);
 
             if (activeReservations.Count == 0)
             {
@@ -199,30 +198,61 @@ namespace Hotel.src.ConsoleUI
 
             Console.WriteLine("\nSus reservas activas:");
             Console.WriteLine("----------------------");
-            foreach (var reservation in activeReservations)
+            for (int i = 0; i < activeReservations.Count; i++)
             {
-                Console.WriteLine($"Reserva |Desde: {reservation.STARTDATE.ToShortDateString()} | Hasta: {reservation.ENDDATE.ToShortDateString()} | Precio: ${reservation.TOTALPRICE}");
+                Console.WriteLine($"{i + 1}. Reserva | Desde: {activeReservations[i].STARTDATE.ToShortDateString()} | Hasta: {activeReservations[i].ENDDATE.ToShortDateString()} | Precio: ${activeReservations[i].TOTALPRICE}");
             }
 
             // Seleccionar reserva
-           
+            Console.Write("\nSeleccione el número de la reserva que desea modificar: ");
+            int selectedReservationIndex;
+            while (!int.TryParse(Console.ReadLine(), out selectedReservationIndex) || selectedReservationIndex < 1 || selectedReservationIndex > activeReservations.Count)
+            {
+                Console.Write("Número de reserva inválido. Intente de nuevo: ");
+            }
 
-            // Verificar que la reserva pertenece al cliente
-           
+            var selectedReservation = activeReservations[selectedReservationIndex - 1];
 
-            // Mostrar las habitaciones de la reserva
-            
+            // Mostrar las habitaciones de la reserva seleccionada
+            Console.WriteLine("\nHabitaciones en la reserva seleccionada:");
+            Console.WriteLine("----------------------------------------");
+            int roomIndex = 1;
+            foreach (var reservationRoom in selectedReservation.ReservationRooms)
+            {
+                var room = reservationRoom.Room;
+                Console.WriteLine($"{roomIndex}. Habitación {room.ROOMNUMBER} | Tipo: {room.TYPE} | Precio por noche: ${room.PRICEPERNIGHT}");
+                roomIndex++;
+            }
 
-            // Seleccionar habitación a cancelar
-           
+            // Seleccionar habitación a cancelar
+            Console.Write("\nSeleccione el número de la habitación que desea cancelar: ");
+            int selectedRoomIndex;
+            while (!int.TryParse(Console.ReadLine(), out selectedRoomIndex) || selectedRoomIndex < 1 || selectedRoomIndex > selectedReservation.ReservationRooms.Count)
+            {
+                Console.Write("Número de habitación inválido. Intente de nuevo: ");
+            }
 
-            // Verificar que la habitación está en la reserva
-            
+            var selectedRoom = selectedReservation.ReservationRooms.ElementAt(selectedRoomIndex - 1).Room;
 
-            // Confirmar cancelación
-            
+            // Confirmar cancelación
+            Console.Write($"\n¿Está seguro que desea cancelar la habitación {selectedRoom.ROOMNUMBER}? (S/N): ");
+            string confirmation = Console.ReadLine().ToUpper();
+
+            if (confirmation == "S")
+            {
+                _reservationService.CancelRoomInReservation(selectedReservation.ID, selectedRoom.ID);
+                Console.WriteLine("\nHabitación cancelada con éxito.");
+            }
+            else
+            {
+                Console.WriteLine("\nCancelación de habitación cancelada.");
+            }
+
+            Console.WriteLine("Presione cualquier tecla para continuar...");
+            Console.ReadKey();
             ShowReservationMenu();
         }
+
         private void ShowReservationsHistory()
         {
             Console.Clear();
