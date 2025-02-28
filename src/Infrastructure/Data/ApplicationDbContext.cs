@@ -16,8 +16,7 @@ namespace Hotel.src.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
           
-
-            DotNetEnv.Env.Load(@"C:\Users\USER\source\repos\Hotel\.env");
+            DotNetEnv.Env.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".env"));
             string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 
             // Verificar si la cadena de conexión está vacía o nula
