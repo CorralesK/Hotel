@@ -128,29 +128,25 @@ namespace Hotel.src.ConsoleUI
             else
                 ShowMenu();
 
-
-            Console.WriteLine(user.ROLE);
             UserValidator validator = new UserValidator();
             ValidationResult result = validator.Validate(user);
 
             // Verificar si el objeto es válido o no
             if (result.IsValid)
             {
-                Console.WriteLine("El usuario es válido.");
+                registerService.RegisterCustomer(user);
+                Console.WriteLine("Usuario registrado correctamente.");
             }
             else
             {
-                Console.WriteLine("Errores de validación:");
                 foreach (var error in result.Errors)
                 {
                     Console.WriteLine($"- {error.ErrorMessage}");
                 }
             }
 
-
-            // registerService.RegisterCustomer(user);
-            //Console.ReadKey();
-           // ShowMenu();
+            Console.ReadKey();
+            ShowMenu();
         }
 
         public void GenerateHeader(string title)

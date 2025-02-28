@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Environment variables
-# .env
+.env
 
 # Ignore Migrations
 # Ignore Migrations
