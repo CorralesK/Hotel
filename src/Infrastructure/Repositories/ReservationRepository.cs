@@ -58,12 +58,13 @@ namespace Hotel.src.Infrastructure.Repositories
         }
         public List<Reservation> GetUpcomingReservations(int daysAhead)
         {
-            DateTime targetDate = DateTime.UtcNow.Date.AddDays(daysAhead);
+            DateTime today = DateTime.UtcNow.Date;
 
             return _context.Reservations
+                .Include(r => r.User)
                 .Include(r => r.ReservationRooms)
                 .ThenInclude(rr => rr.Room)
-                .Where(r => r.STARTDATE.Date <= targetDate)
+                .Where(r => (r.STARTDATE.Date - today).Days == daysAhead)
                 .ToList();
         }
     }

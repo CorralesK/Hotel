@@ -28,7 +28,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("2. Registrar cliente");
             Console.WriteLine("3. Ver reportes");
             Console.WriteLine("4. Generar factura");
-            Console.WriteLine("5. Ejecutar notificaciones de check-in");
+            Console.WriteLine("5. Ver logs de notificaciones check-in");
             Console.WriteLine("6. Salir");
             Console.Write("Seleccione una opción: ");
 
@@ -47,9 +47,7 @@ namespace Hotel.src.ConsoleUI
                     // GenerateInvoice();
                     break;
                 case "5":
-                    var serviceProvider = ServiceConfigurator.ConfigureServices();
-                    var job = serviceProvider.GetRequiredService<CheckInNotificationJob>();
-                    job.Execute();
+                    ReadLogs();
                     break;
                 case "6":
                     Program.ShowStartScreen();
@@ -157,6 +155,53 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine(message);
         }
         public string ReadLines() => Console.ReadLine();
+
+
+        private void ReadLogs()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=========================================");
+                Console.WriteLine("              LEER ARCHIVO DE LOGS      ");
+                Console.WriteLine("=========================================");
+
+                // Solicitar fecha en formato yyyy-MM-dd
+                Console.Write("Ingrese la fecha en formato (yyyy-MM-dd) para leer los logs: ");
+                string dateInput = Console.ReadLine();
+                DateTime selectedDate;
+
+                if (DateTime.TryParse(dateInput, out selectedDate))
+                {
+                    string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", $"logs_{selectedDate:yyyy-MM-dd}.txt");
+
+                    if (File.Exists(logFilePath))
+                    {
+                        string logContents = File.ReadAllText(logFilePath);
+                        Console.WriteLine("\n=========================================");
+                        Console.WriteLine($"      Logs del {selectedDate:yyyy-MM-dd}      ");
+                        Console.WriteLine("=========================================");
+                        Console.WriteLine(logContents);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No se encontraron logs para la fecha seleccionada.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Fecha no válida. Intente nuevamente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al leer el archivo de log: {ex.Message}");
+            }
+
+            Console.ReadKey();
+            ShowMenu();
+        }
+
         /*
         private void GenerateInvoice()
         {

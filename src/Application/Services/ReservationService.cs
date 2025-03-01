@@ -4,11 +4,11 @@ using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.Application.Services
 {
-    class ReservationService
+    public class ReservationService
     {
         private readonly IReservationRepository _reservationRepository;
 
-        //Constructor que recibe el irepositorio como dependencia
+        //Constructor que recibe el irepositorio como dependencia.
         public ReservationService(IReservationRepository reservationRepository)
         {
             _reservationRepository = reservationRepository;
