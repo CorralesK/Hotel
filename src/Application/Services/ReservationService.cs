@@ -4,7 +4,7 @@ using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.Application.Services
 {
-    class ReservationService
+    public class ReservationService
     {
         private readonly IReservationRepository _reservationRepository;
 
