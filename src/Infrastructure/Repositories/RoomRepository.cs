@@ -9,47 +9,117 @@ namespace Hotel.src.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoomRepository"/> class.
+        /// </summary>
+        /// <param name="context">The ApplicationDbContext instance used to interact with the database.</param>
         public RoomRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Adds a new room to the database after validating that the room number is unique.
+        /// </summary>
+        /// <param name="room">The Room object to be added.</param>
+        /// <returns>The added Room object.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the room number already exists in the database.</exception>
+        /// <exception cref="Exception">Thrown when an error occurs while saving the room.</exception>
         public Room Add(Room room)
         {
-            _context.Rooms.Add(room);
-            _context.SaveChanges();
-            return room;
+            if (_context.Rooms.Any(r => r.ROOMNUMBER == room.ROOMNUMBER))
+            {
+                throw new InvalidOperationException("El número de habitación ya existe.");
+            }
+
+            try
+            {
+                _context.Rooms.Add(room);
+                _context.SaveChanges();
+                return room;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al registrar la habitación.", ex);
+            }
         }
 
+
+        /// <summary>
+        /// Retrieves all rooms from the database.
+        /// </summary>
+        /// <returns>A list of all Room objects.</returns>
         public IEnumerable<Room> GetAll() => _context.Rooms.ToList();
 
+
+        /// <summary>
+        /// Retrieves a room by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique ID of the room to retrieve.</param>
+        /// <returns>The Room object corresponding to the specified ID, or null if not found.</returns>
         public Room GetById(int id) => _context.Rooms.Find(id);
 
+
+        /// <summary>
+        /// Retrieves rooms that match the specified room type.
+        /// </summary>
+        /// <param name="type">The type of room (e.g., Single, Double, Suite).</param>
+        /// <returns>A list of Room objects that match the specified room type.</returns>
         public IEnumerable<Room> GetByType(RoomType type) => _context.Rooms.Where(r => r.TYPE == type).ToList();
 
+
+        /// <summary>
+        /// Retrieves rooms that are within the specified price range.
+        /// </summary>
+        /// <param name="minPrice">The minimum price per night for the rooms.</param>
+        /// <param name="maxPrice">The maximum price per night for the rooms.</param>
+        /// <returns>A list of Room objects that match the price range.</returns>
         public IEnumerable<Room> GetByPriceRange(double minPrice, double maxPrice) =>
             _context.Rooms.Where(r => r.PRICEPERNIGHT >= minPrice && r.PRICEPERNIGHT <= maxPrice).ToList();
+
+
+        /// <summary>
+        /// Retrieves rooms that have a specific status (e.g., available, occupied).
+        /// </summary>
+        /// <param name="status">The status of the room (e.g., Available, Occupied).</param>
+        /// <returns>A list of Room objects that match the specified status.</returns>
         public IEnumerable<Room> GetByStatus(RoomStatus status) => _context.Rooms.Where(r => r.STATUS == status).ToList();
 
 
         /// <summary>
-        /// Esto tengo que cambiarlo para la tabla intermedia
+        /// Retrieves a room by its unique room number.
         /// </summary>
-        /// <param name="roomId"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public bool HasReservationsInDateRange(int roomId, DateTime startDate, DateTime endDate)
+        /// <param name="roomNumber">The unique room number.</param>
+        /// <returns>The Room object with the specified room number, or null if not found.</returns>
+        public Room GetByRoomNumber(string roomNumber) => _context.Rooms.FirstOrDefault(r => r.ROOMNUMBER == roomNumber);
+
+
+        /// <summary>
+        /// Retrieves rooms that are not reserved during the specified date range.
+        /// </summary>
+        /// <param name="startDate">The start date of the desired stay.</param>
+        /// <param name="endDate">The end date of the desired stay.</param>
+        /// <returns>A list of Room objects that are available within the specified date range.</returns>
+        /// <exception cref="ArgumentException">Thrown if the end date is earlier than the start date.</exception>
+        public IEnumerable<Room> HasReservationsInDateRange(DateTime startDate, DateTime endDate)
         {
-            //var overlappingReservations = _context.Reservations
-            //    .Where(r => r.RoomId == roomId &&
-            //                r.Status == ReservationStatus.Confirmada &&
-            //                ((r.StartDate < endDate && r.EndDate > startDate)))
-            //    .Any();
-            //return overlappingReservations;
-            return false;
+            // Validate the date range
+            if (endDate < startDate)
+            {
+                throw new ArgumentException("La fecha de fin no puede ser menor a la fecha de inicio.");
+            }
+
+            // Get the IDs of rooms that have confirmed reservations within the date range
+            var reservedRoomIds = _context.Reservations
+                .Where(r => r.STATUS == ReservationStatus.Confirmada &&
+                            ((r.STARTDATE < endDate && r.ENDDATE > startDate)))
+                .Select(r => r.ID)
+                .Distinct()
+                .ToList();
+
+            return _context.Rooms
+                .Where(r => !reservedRoomIds.Contains(r.ID))
+                .ToList();
         }
-
-
     }
 }

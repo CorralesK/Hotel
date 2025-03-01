@@ -5,13 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.src.Core.Entities
 {
-    [Index(nameof(ROOMNUMBER), IsUnique = true)] // Unique_key
+    /// <summary>
+    /// Represents a Room entity in the hotel database.
+    /// This class defines the properties and relationships related to hotel rooms.
+    /// </summary>
+    /// 
+
+    // Unique constraint on the ROOMNUMBER column
+    [Index(nameof(ROOMNUMBER), IsUnique = true)]
     public class Room
     {
+        /// <summary>
+        /// Gets or sets the unique identifier for the room.
+        /// This is the primary key for the Room entity.
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the room number.
+        /// This value must be unique and is used for identifying a room.
+        /// </summary>
         [Required]
         public string ROOMNUMBER { get; set; }
 
@@ -27,17 +42,24 @@ namespace Hotel.src.Core.Entities
         [Required]
         public RoomStatus STATUS { get; set; }
 
-
-        /*Soy keisy, en las migraciones no se puede usar la lista da error, entonces
-         * por eso se usa una entidad intermedia, para que con fk se pueda hacer la relación
-         * de muchos a muchos ya que una reserva puede estar en muchas habitaciones, y muchas habitaciones
-         * pueden estar en una reserva, entonces por eso se usa el ICollection.
-         */
+        /// <summary>
+        /// Gets or sets the collection of ReservationRoom entities associated with this room.
+        /// This represents the many-to-many relationship between rooms and reservations.
+        /// </summary>
         public ICollection<ReservationRoom> ReservationRooms { get; set; } = new List<ReservationRoom>();
 
 
         public Room() { }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Room"/> class with specified parameters.
+        /// </summary>
+        /// <param name="roomNumber">The unique room number.</param>
+        /// <param name="type">The type of the room (e.g., Single, Double, Suite).</param>
+        /// <param name="pricePerNight">The price per night for the room.</param>
+        /// <param name="capacity">The maximum capacity of the room (number of guests it can accommodate).</param>
+        /// <param name="status">The current status of the room (e.g., Available, Occupied).</param>
         public Room(string roomNumber, RoomType type, double pricePerNight, int capacity, RoomStatus status)
         {
             ROOMNUMBER = roomNumber;

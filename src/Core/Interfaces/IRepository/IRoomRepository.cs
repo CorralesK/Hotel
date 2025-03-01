@@ -12,6 +12,7 @@ namespace Hotel.src.Core.Interfaces.IRepository
         IEnumerable<Room> GetByType(RoomType type);
         IEnumerable<Room> GetByPriceRange(double minPrice, double maxPrice);
         IEnumerable<Room> GetByStatus(RoomStatus status);
-        bool HasReservationsInDateRange(int roomId, DateTime startDate, DateTime endDate);
+        Room GetByRoomNumber(string roomNumber);
+        IEnumerable<Room> HasReservationsInDateRange(DateTime startDate, DateTime endDate);
     }
 }
