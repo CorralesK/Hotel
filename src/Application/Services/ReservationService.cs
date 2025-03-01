@@ -17,6 +17,11 @@ namespace Hotel.src.Application.Services
 
         public void RegisterReservation(Reservation reservation)
         {
+            if (reservation.STARTDATE > reservation.ENDDATE)
+            {
+                throw new Exception("Las fechas de la reserva son inválidas.");
+            }
+
             _reservationRepository.Add(reservation);
 
         }
@@ -49,23 +54,28 @@ namespace Hotel.src.Application.Services
         public void CancelRoomInReservation(int reservationId, int roomId)
         {
             var reservation = _reservationRepository.GetById(reservationId);
-            if (reservation != null)
+            if (reservation == null)
             {
-                var roomToRemove = reservation.ReservationRooms.FirstOrDefault(rr => rr.RoomID == roomId);
-                if (roomToRemove != null)
-                {
-                    reservation.ReservationRooms.Remove(roomToRemove);
-                    reservation.CalculateTotalPrice();
-
-                    // Si ya no tiene habitaciones, cancelar toda la reserva
-                    if (!reservation.ReservationRooms.Any())
-                    {
-                        reservation.STATUS = ReservationStatus.Cancelada;
-                    }
-
-                    _reservationRepository.Update(reservation);
-                }
+                throw new Exception("La reserva no existe.");
             }
+            if (reservation.STATUS == ReservationStatus.Cancelada)
+            {
+                throw new Exception("No se puede cancelar una habitación de una reserva ya cancelada.");
+            }
+            var roomToRemove = reservation.ReservationRooms.FirstOrDefault(rr => rr.RoomID == roomId);
+            if (roomToRemove == null)
+            {
+                throw new Exception("La habitación no está en la reserva.");
+            }
+            reservation.ReservationRooms.Remove(roomToRemove);
+            reservation.CalculateTotalPrice();
+
+            // Si la reserva ya no tiene habitaciones, se cancela completamente
+            if (!reservation.ReservationRooms.Any())
+            {
+                reservation.STATUS = ReservationStatus.Cancelada;
+            }
+            _reservationRepository.Update(reservation);
         }
     }
 }
