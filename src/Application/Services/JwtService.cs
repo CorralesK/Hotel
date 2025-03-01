@@ -9,7 +9,7 @@ namespace Hotel.src.Application.Services
 {
     public class JwtService
     {
-        private const string SecretKey = "mi-clave-super-secreta-de-mas-de-32-caracteres!"; // 📌 Secreto del token
+        private const string SecretKey = "mi-clave-super-secreta-de-mas-de-32-caracteres!"; // 📌 Secret of token
 
         public string GenerateToken(User user)
         {
@@ -22,9 +22,9 @@ namespace Hotel.src.Application.Services
                 {
                 new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                 new Claim(ClaimTypes.Email, user.EMAIL),
-                new Claim(ClaimTypes.Role, user.ROLE.ToString()) // 📌 Se guarda el rol en el token
+                new Claim(ClaimTypes.Role, user.ROLE.ToString()) // 📌 The role is saved in the token
                 }),
-                Expires = DateTime.UtcNow.AddHours(1), // ⏳ Token expira en 1 hora
+                Expires = DateTime.UtcNow.AddHours(1), // ⏳ Token expires in 1 hour
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature
@@ -50,14 +50,14 @@ namespace Hotel.src.Application.Services
             };
 
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-            return principal.FindFirst(ClaimTypes.Role)?.Value; // 📌 Retorna el Rol
+            return principal.FindFirst(ClaimTypes.Role)?.Value; // 📌 return the rol
         }
         public int GetUserIdFromToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            // Buscar el claim que contiene el ID del usuario (nameid)
+            // 📌 
             var userIdClaim = jsonToken?.Claims.FirstOrDefault(c => c.Type == "nameid"); //'nameid'
            
 
@@ -68,11 +68,7 @@ namespace Hotel.src.Application.Services
             }
 
             int userId = int.Parse(userIdClaim.Value);
-            foreach (var claim in jsonToken.Claims)
-            {
-                //Console.WriteLine($"➡ {claim.Type}: {claim.Value}");
-            }
-
+            
             return userId;
         }
     }
