@@ -12,7 +12,7 @@ namespace Hotel.src.Application.Services
             _sender = sender;
         }
 
-        public void SendCheckInNotification(string recipientEmail, string recipientName, DateTime checkInDate, string roomDetails)
+        public bool SendCheckInNotification(string recipientEmail, string recipientName, DateTime checkInDate, string roomDetails)
         {
             string subject = "Recordatorio de su próxima reserva";
 
@@ -30,7 +30,16 @@ namespace Hotel.src.Application.Services
             </body>
             </html>";
 
-            _sender.Send(subject, message, recipientEmail);
+            try
+            {
+                // Send the email using the sender
+                return _sender.Send(subject, message, recipientEmail);
+            }
+            catch (Exception ex)
+            {
+
+                return false;  // Return false in case of any error
+            }
         }
     }
 }

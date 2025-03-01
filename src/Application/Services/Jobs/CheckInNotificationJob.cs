@@ -1,6 +1,7 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Core.Interfaces.IServices;
+using Hotel.src.Infrastructure.Loggins;
 
 namespace Hotel.src.Application.Services.Jobs
 {
@@ -15,7 +16,7 @@ namespace Hotel.src.Application.Services.Jobs
             IReservationRepository reservationRepository,
             IUserRepository userRepository,
             INotificationService notificationService,
-            int notificationDaysAhead = 3)
+            int notificationDaysAhead = 2)
         {
             _reservationRepository = reservationRepository;
             _userRepository = userRepository;
@@ -25,12 +26,13 @@ namespace Hotel.src.Application.Services.Jobs
 
         public void Execute()
         {
-            Console.WriteLine($"Ejecutando job de notificaciones de check-in ({DateTime.Now})...");
-
             // Obtener las reservas que se aproximan
             List<Reservation> upcomingReservations = _reservationRepository.GetUpcomingReservations(_notificationDaysAhead);
 
-            Console.WriteLine($"Se encontraron {upcomingReservations.Count} reservas próximas.");
+
+            LogService.LogNotification($"Ejecutando job de notificaciones de check-in ({DateTime.Now})...");
+            LogService.LogNotification($"Se encontraron {upcomingReservations.Count} reservas próximas.");
+
 
             foreach (var reservation in upcomingReservations)
             {
@@ -48,21 +50,29 @@ namespace Hotel.src.Application.Services.Jobs
                     ));
 
                     // Enviar la notificación
-                    _notificationService.SendCheckInNotification(
-                        user.EMAIL,
-                        user.NAME,
-                        reservation.STARTDATE,
-                        roomDetails);
+                    bool notificationSent = _notificationService.SendCheckInNotification(
+                            user.EMAIL,
+                            user.NAME,
+                            reservation.STARTDATE,
+                            roomDetails);
 
-                    Console.WriteLine($"Notificación enviada a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
+                    if (notificationSent)
+                    {
+                        LogService.LogNotification($"Notificación enviada a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
+                    }
+                    else
+                    {
+                        LogService.LogNotification($"Error al enviar la notificación a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
+                    }
+
                 }
                 else
                 {
-                    Console.WriteLine($"No se pudo enviar notificación para la reserva ID {reservation.ID}: información de usuario incompleta");
+                    LogService.LogNotification($"No se pudo enviar notificación para la reserva ID {reservation.ID}: información de usuario incompleta");
                 }
             }
 
-            Console.WriteLine("Job de notificaciones de check-in completado.");
+            LogService.LogNotification("Job de notificaciones de check-in completado.");
         }
     }
 }
