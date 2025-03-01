@@ -5,7 +5,7 @@ using Hotel.src.Infrastructure.Data;
 
 namespace Hotel.src.Infrastructure.Repositories
 {
-    class RoomRepository : IRoomRepository
+    public class RoomRepository : IRoomRepository
     {
         private readonly ApplicationDbContext _context;
 

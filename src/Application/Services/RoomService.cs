@@ -100,25 +100,23 @@ namespace Hotel.src.Application.Services
             {
                 rooms = CheckAvailability(startDate.Value, endDate.Value);
             }
+            // Apply filters for room type, if specified
+            else if (type.HasValue)
+            {
+                rooms = _roomRepository.GetByType(type.Value);
+            }
+            // Apply filters for price range, if specified
+            else if (minPrice.HasValue && maxPrice.HasValue)
+            {
+                rooms = _roomRepository.GetByPriceRange(minPrice.Value, maxPrice.Value);
+            }
             // If no filters are provided, default to checking availability for today
-            else if (!type.HasValue && !minPrice.HasValue && !maxPrice.HasValue)
+            else
             {
                 rooms = CheckAvailability(DateTime.Today, DateTime.Today);
             }
 
-            // Apply filters for room type, if specified
-            if (type.HasValue)
-            {
-                rooms = _roomRepository.GetByType(type.Value);
-            }
-
-            // Apply filters for price range, if specified
-            if (minPrice.HasValue && maxPrice.HasValue)
-            {
-                rooms = _roomRepository.GetByPriceRange(minPrice.Value, maxPrice.Value);
-            }
-
-            return rooms;
+                return rooms;
         }
 
     }
