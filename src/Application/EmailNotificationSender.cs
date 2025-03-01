@@ -45,12 +45,12 @@ namespace Hotel.src.Application
                     }
                 }
 
-                Console.WriteLine($"Correo enviado correctamente a {recipient}.");
+
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+
                 return false;
             }
         }
