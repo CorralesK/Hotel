@@ -31,7 +31,7 @@ namespace Hotel.src.Core.Entities
             NAME = name;
             PASSWORD = password;
         }
-        
+
 
     }
 }

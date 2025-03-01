@@ -62,13 +62,16 @@ namespace Hotel.src.Application.Services
             if (type.HasValue)
             {
                 rooms = rooms.Where(r => r.TYPE == type.Value);
-            } else if (minPrice.HasValue && maxPrice.HasValue)
+            }
+            else if (minPrice.HasValue && maxPrice.HasValue)
             {
                 rooms = rooms.Where(r => r.PRICEPERNIGHT >= minPrice.Value && r.PRICEPERNIGHT <= maxPrice.Value);
-            } else if (startDate.HasValue && endDate.HasValue)
+            }
+            else if (startDate.HasValue && endDate.HasValue)
             {
                 rooms = rooms.Where(r => !_roomRepository.HasReservationsInDateRange(r.ID, startDate.Value, endDate.Value)).ToList();
-            } else
+            }
+            else
             {
                 rooms = rooms.Where(r => r.STATUS == RoomStatus.DISPONIBLE);
             }

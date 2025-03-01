@@ -1,11 +1,6 @@
-﻿using dotenv.net;
+﻿using System.Net.Mail;
+using dotenv.net;
 using Hotel.src.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel.src.Application
 {

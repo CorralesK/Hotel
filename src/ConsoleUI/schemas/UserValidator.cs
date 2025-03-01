@@ -24,7 +24,7 @@ namespace Hotel.src.ConsoleUI.schemas
                 .Must(BeAValidRole).WithMessage("El rol no es valido");
         }
 
-        private bool BeAValidRole(RoleUser role) => role == RoleUser.Admin || role == RoleUser.User; 
-        
+        private bool BeAValidRole(RoleUser role) => role == RoleUser.Admin || role == RoleUser.User;
+
     }
 }

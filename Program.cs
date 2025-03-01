@@ -1,14 +1,7 @@
-﻿using Hotel.src.ConsoleUI;
-using System;
-using Hotel.src.Application.Services;
-using Hotel.src.Infrastructure.Repositories;
-using Hotel.src.Infrastructure.Data;
+﻿using Hotel.src.Application.Services;
+using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
-using Hotel.src.Core.Enums;
-using System.IdentityModel.Tokens.Jwt;
-using Hotel.src.Core.Entities;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -37,12 +30,12 @@ namespace Hotel.src.ConsoleUI
                     var serviceProvider = ServiceConfigurator.ConfigureServices();
                     var authService = serviceProvider.GetService<IAuthService>();
                     var jwtService = serviceProvider.GetService<JwtService>();
-                
+
                     Console.Write("Email: ");
                     string email = Console.ReadLine();
                     Console.Write("Password: ");
                     string password = Console.ReadLine();
-                  
+
                     string token = authService.Authenticate(email, password);
                     string role = jwtService.GetRoleFromToken(token);
                     SessionManager.SetSession(token);
@@ -57,7 +50,7 @@ namespace Hotel.src.ConsoleUI
                         var customer = serviceProvider.GetRequiredService<Customer>();
                         customer.ShowMenu();
                     }
-                    
+
                     break;
                 case "e":
                     Console.WriteLine("Saliendo del sistema...\n");

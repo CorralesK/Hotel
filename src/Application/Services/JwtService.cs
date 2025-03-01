@@ -43,8 +43,8 @@ namespace Hotel.src.Application.Services
 
             var validationParameters = new TokenValidationParameters
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuerSigningKey = true, // 📌 Validate the key
+                IssuerSigningKey = new SymmetricSecurityKey(key), // 📌 // Sets the symmetric signing key used to validate the token signature.
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
@@ -57,9 +57,9 @@ namespace Hotel.src.Application.Services
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            // 📌 
+            // 📌 Find the claim that contains the user ID (nameid)
             var userIdClaim = jsonToken?.Claims.FirstOrDefault(c => c.Type == "nameid"); //'nameid'
-           
+
 
             if (userIdClaim == null)
             {
@@ -68,7 +68,7 @@ namespace Hotel.src.Application.Services
             }
 
             int userId = int.Parse(userIdClaim.Value);
-            
+
             return userId;
         }
     }

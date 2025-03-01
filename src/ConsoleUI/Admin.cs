@@ -1,20 +1,12 @@
-﻿using Hotel.src.Application.Services;
+﻿using FluentValidation.Results;
+using Hotel.src.Application.Services;
+using Hotel.src.Application.Services.Jobs;
 using Hotel.src.ConsoleUI.schemas;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
-using Microsoft.Extensions.DependencyInjection;
-using FluentValidation;
-using FluentValidation.Results;
-using Sprache;
-using System.Data;
-using Moq;
-using System.Numerics;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Hotel.src.Infrastructure.Repositories;
-using Hotel.src.Core.Interfaces.IRepository;
-using Microsoft.AspNetCore.Identity;
-using Hotel.src.Application.Services.Jobs;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -121,7 +113,7 @@ namespace Hotel.src.ConsoleUI
             var serviceProvider = ServiceConfigurator.ConfigureServices();
             var registerService = serviceProvider.GetRequiredService<IRegisterServices>();
             User user = new User();
-            
+
             PrintLine("Ingrese el nombre del cliente: ");
             user.NAME = ReadLines();
             PrintLine("Ingrese el correo electrónica del cliente: ");
@@ -155,12 +147,12 @@ namespace Hotel.src.ConsoleUI
         }
 
         public void GenerateHeader(string title)
-        {   
+        {
             Console.WriteLine(new string('=', 40));
-            Console.WriteLine("\t"+title+"\t");
+            Console.WriteLine("\t" + title + "\t");
             Console.WriteLine(new string('=', 40));
         }
-      
+
         public void PrintLine(string message)
         {
             Console.WriteLine(message);

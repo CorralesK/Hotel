@@ -1,6 +1,6 @@
 ﻿using Hotel.src.Core.Entities;
-using Hotel.src.Core.Interfaces.IServices;
 using Hotel.src.Core.Interfaces.IRepository;
+using Hotel.src.Core.Interfaces.IServices;
 
 namespace Hotel.src.Application.Services
 {

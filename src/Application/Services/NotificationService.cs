@@ -1,10 +1,5 @@
-﻿using Hotel.src.Core.Interfaces.IServices;
-using Hotel.src.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hotel.src.Core.Interfaces;
+using Hotel.src.Core.Interfaces.IServices;
 
 namespace Hotel.src.Application.Services
 {

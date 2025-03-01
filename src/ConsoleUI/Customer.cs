@@ -1,11 +1,6 @@
 ﻿using Hotel.src.Application.Services;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -21,7 +16,7 @@ namespace Hotel.src.ConsoleUI
             _reservationMenu = reservationMenu;
         }
 
-      
+
         public void ShowMenu()
         {
             Console.Clear();
@@ -42,7 +37,7 @@ namespace Hotel.src.ConsoleUI
                 case "2":
                     break;
                 case "3":
-                    
+
                     _reservationMenu.ShowReservationMenu();
                     break;
                 case "4":

@@ -1,6 +1,6 @@
-﻿using Hotel.src.Core.Entities;
+﻿using dotenv.net;
+using Hotel.src.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using dotenv.net;
 
 namespace Hotel.src.Infrastructure.Data
 {
@@ -15,7 +15,7 @@ namespace Hotel.src.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-          
+
             DotNetEnv.Env.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".env"));
             string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 
@@ -43,7 +43,7 @@ namespace Hotel.src.Infrastructure.Data
         /// <value>
         /// A DbSet of Room entities.
         /// </value>
-        
+
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<ReservationRoom> ReservationRooms { get; set; }
@@ -87,7 +87,7 @@ namespace Hotel.src.Infrastructure.Data
                 );
 
         }
-       
+
     }
 }
 

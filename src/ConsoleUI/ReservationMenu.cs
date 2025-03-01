@@ -1,12 +1,6 @@
 ﻿using Hotel.src.Application.Services;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -57,7 +51,7 @@ namespace Hotel.src.ConsoleUI
                     break;
             }
         }
-       
+
         private void RegisterReservation()
         {
             Console.Clear();
@@ -124,7 +118,6 @@ namespace Hotel.src.ConsoleUI
 
                 // Aquí deberíamos verificar que la habitación existe y está disponible
 
-                
                 var room = _roomService.GetRoomById(roomNumber);
 
                 if (room == null)
@@ -148,7 +141,7 @@ namespace Hotel.src.ConsoleUI
                 string response = Console.ReadLine().ToUpper();
 
                 addMoreRooms = (response == "S");
-                
+
             }
             // Verificar si se añadieron habitaciones
             if (reservation.ReservationRooms.Count == 0)
@@ -299,7 +292,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\nPresione cualquier tecla para continuar...");
             Console.ReadKey();
             ShowReservationMenu();
-            
+
         }
 
     }

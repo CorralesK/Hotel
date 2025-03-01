@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Hotel.src.Application;
 using Hotel.src.Application.Services;
+using Hotel.src.Application.Services.Jobs;
+using Hotel.src.ConsoleUI;
+using Hotel.src.Core.Interfaces;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Core.Interfaces.IServices;
-using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Infrastructure.Data;
-using Hotel.src.ConsoleUI;
-using Hotel.src.Core.Entities;
-using Hotel.src.Application.Services.Jobs;
-using Hotel.src.Application;
-using Hotel.src.Core.Interfaces;
+using Hotel.src.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel
 {
