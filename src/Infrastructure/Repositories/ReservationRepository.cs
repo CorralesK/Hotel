@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.src.Infrastructure.Repositories
 {
-    class ReservationRepository : IReservationRepository
+    public class ReservationRepository : IReservationRepository
     {
         private readonly ApplicationDbContext _context;
 
