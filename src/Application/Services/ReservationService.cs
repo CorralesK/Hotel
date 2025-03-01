@@ -15,14 +15,20 @@ namespace Hotel.src.Application.Services
         }
 
 
-        public void RegisterReservation(int clientId, DateTime startDate, DateTime endDate)
+        public void RegisterReservation(Reservation reservation)
         {
-            var reservation = new Reservation(clientId, startDate, endDate, ReservationStatus.Confirmada);
-            reservation.TOTALPRICE = reservation.CalculateTotalPrice();
             _reservationRepository.Add(reservation);
 
         }
-
+        public ReservationRoom AddRoomToReservation(ReservationRoom reservationRoom)
+        {
+            var reservationRoomAdd = _reservationRepository.AddRoomInReservation(reservationRoom);
+            return reservationRoomAdd;
+        }
+        public void UpdateReservation(Reservation reservation)
+        {
+            _reservationRepository.Update(reservation);
+        }
         public List<Reservation> GetReservationsByClientId(int clientId)
         {
             return _reservationRepository.GetByClientId(clientId);
