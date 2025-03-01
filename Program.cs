@@ -1,6 +1,7 @@
 ﻿using Hotel.src.Application.Services;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
+using Hotel.src.Infrastructure.BackgroundServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel.src.ConsoleUI
@@ -10,7 +11,15 @@ namespace Hotel.src.ConsoleUI
         static void Main()
         {
             Console.Title = "Sistema de Gestión de Reservas de Hotel";
+
+            var cts = new CancellationTokenSource();
+            var jobRunner = new BackgroundJobService();
+            var jobTask = jobRunner.RunJobInBackground(cts.Token);
+
             ShowStartScreen();
+
+            cts.Cancel();
+            jobTask.Wait();
         }
 
         public static void ShowStartScreen()
