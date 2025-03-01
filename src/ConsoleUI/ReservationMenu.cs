@@ -59,10 +59,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("         REGISTRAR NUEVA RESERVA         ");
             Console.WriteLine("=========================================");
 
-            // Obtener ID del cliente
             int clientId = SessionManager.UserId;
-            Console.WriteLine($"ID del cliente: {clientId}");
-
 
             Console.Write("Ingrese la fecha de inicio (DD/MM/YYYY): ");
             DateTime startDate;
@@ -85,6 +82,8 @@ namespace Hotel.src.ConsoleUI
             reservation.ENDDATE = endDate;
             reservation.STATUS = ReservationStatus.Confirmada;
 
+            _reservationService.RegisterReservation(reservation);
+
             // Obtener habitaciones disponibles
             var availableRooms = _roomService.CheckAvailability(startDate, endDate);
 
@@ -102,7 +101,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("--------------------------------------------------------");
             foreach (var room in availableRooms)
             {
-                Console.WriteLine($"ID: {room.ROOMNUMBER} | Tipo: {room.TYPE} | Precio por noche: ${room.PRICEPERNIGHT}");
+                Console.WriteLine($"Número de habitación: {room.ROOMNUMBER} | Tipo: {room.TYPE} | Precio por noche: ${room.PRICEPERNIGHT}");
             }
 
             // Añadir habitaciones a la reserva
@@ -110,23 +109,18 @@ namespace Hotel.src.ConsoleUI
             while (addMoreRooms)
             {
                 Console.Write("\nIngrese el número de la habitación que desea reservar: ");
-                int roomNumber;
-                while (!int.TryParse(Console.ReadLine(), out roomNumber))
-                {
-                    Console.Write("Número de habitación inválido. Ingrese un número: ");
-                }
+                string roomNumber = Console.ReadLine();
 
-                // Aquí deberíamos verificar que la habitación existe y está disponible
-
-                var room = _roomService.GetRoomById(roomNumber);
+                // Buscar la habitación por su número (ROOMNUMBER)
+                var room = availableRooms.FirstOrDefault(r => r.ROOMNUMBER == roomNumber);
 
                 if (room == null)
                 {
-                    Console.WriteLine("La habitación no existe. Intente con otro ID.");
+                    Console.WriteLine("La habitación no existe o no está disponible. Intente con otro número.");
                     continue;
                 }
 
-                // Crear y añadir la relación reserva-habitación
+                // Crear y añadir la relación reserva-habitación}
                 ReservationRoom reservationRoom = new ReservationRoom
                 {
                     ReservationID = reservation.ID,
@@ -135,11 +129,11 @@ namespace Hotel.src.ConsoleUI
                     Room = room
                 };
 
-                reservation.ReservationRooms.Add(reservationRoom);
+
+                var addreservationRoom = _reservationService.AddRoomToReservation(reservationRoom);
 
                 Console.Write("¿Desea añadir otra habitación? (S/N): ");
                 string response = Console.ReadLine().ToUpper();
-
                 addMoreRooms = (response == "S");
 
             }
@@ -152,10 +146,14 @@ namespace Hotel.src.ConsoleUI
                 ShowReservationMenu();
                 return;
             }
+            // Calcular el precio total antes de guardar la reserva
+            reservation.CalculateTotalPrice();
             // Registrar la reserva usando el servicio
-            _reservationService.RegisterReservation(clientId, startDate, endDate);
+            _reservationService.UpdateReservation(reservation);
+            //_reservationService.RegisterReservation(reservation);
 
-            Console.WriteLine("\nReserva registrada con éxito. ID de reserva: " + reservation.ID);
+            Console.WriteLine($"\nReserva registrada con éxito. Reserva desde: " +
+                $"{reservation.STARTDATE} hasta {reservation.ENDDATE}");
             Console.WriteLine("Precio total: $" + reservation.TOTALPRICE);
             // Generar Factura
             Console.WriteLine("Presione cualquier tecla para continuar...");
@@ -168,8 +166,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
             Console.WriteLine("    CANCELAR HABITACIÓN EN RESERVA       ");
             Console.WriteLine("=========================================");
-            user = new User();
-            int clientId = user.ID;
+            int clientId = SessionManager.UserId;
 
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);
@@ -260,8 +257,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
 
             // Obtener ID del cliente
-            user = new User();
-            int clientId = user.ID;
+            int clientId = SessionManager.UserId;
 
             // Obtener las reservas del cliente
             var reservations = _reservationService.GetReservationsByClientId(clientId);

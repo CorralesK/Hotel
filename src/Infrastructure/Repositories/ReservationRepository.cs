@@ -10,10 +10,6 @@ namespace Hotel.src.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public ReservationRepository()
-        {
-
-        }
         public ReservationRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -25,6 +21,12 @@ namespace Hotel.src.Infrastructure.Repositories
             _context.Reservations.Add(reservation);
             _context.SaveChanges();
             return reservation;
+        }
+        public ReservationRoom AddRoomInReservation(ReservationRoom reservationRoom)
+        {
+            _context.ReservationRooms.Add(reservationRoom);
+            _context.SaveChanges();
+            return reservationRoom;
         }
 
         // Método para actualizar una reserva existente
@@ -59,12 +61,10 @@ namespace Hotel.src.Infrastructure.Repositories
             DateTime targetDate = DateTime.UtcNow.Date.AddDays(daysAhead);
 
             return _context.Reservations
-                .Include(r => r.User)
                 .Include(r => r.ReservationRooms)
                 .ThenInclude(rr => rr.Room)
                 .Where(r => r.STARTDATE.Date <= targetDate)
                 .ToList();
         }
-
     }
 }

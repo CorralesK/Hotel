@@ -1,12 +1,11 @@
-﻿using FluentValidation.Results;
-using Hotel.src.Application.Services;
-using Hotel.src.Application.Services.Jobs;
+﻿using Hotel.src.Application.Services;
 using Hotel.src.ConsoleUI.schemas;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
-using Hotel.src.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using FluentValidation.Results;
+using Hotel.src.Application.Services.Jobs;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -45,7 +44,7 @@ namespace Hotel.src.ConsoleUI
                 case "3":
                     break;
                 case "4":
-                    GenerateInvoice();
+                    // GenerateInvoice();
                     break;
                 case "5":
                     var serviceProvider = ServiceConfigurator.ConfigureServices();
@@ -158,7 +157,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine(message);
         }
         public string ReadLines() => Console.ReadLine();
-
+        /*
         private void GenerateInvoice()
         {
             Console.Clear();
@@ -167,10 +166,10 @@ namespace Hotel.src.ConsoleUI
 
             try
             {
-                var reservationRepository = new ReservationRepository();
-                var invoiceRepository = new InvoiceRepository();
+                var serviceProvider = ServiceConfigurator.ConfigureServices();
+                var reservationRepository = serviceProvider.GetRequiredService<ReservationRepository>();
+                var invoiceRepository = serviceProvider.GetRequiredService<InvoiceRepository>();
                 var billingService = new BillingService(reservationRepository, invoiceRepository);
-
                 var invoice = billingService.GenerateInvoice(reservationId);
 
                 Console.WriteLine("\nFactura generada con éxito:");
@@ -190,7 +189,7 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
-
+        */
 
     }
 
