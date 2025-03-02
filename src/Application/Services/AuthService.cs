@@ -19,7 +19,6 @@ namespace Hotel.src.Application.Services
             var user = _userRepository.GetUserByEmailAndRole(email, password);
             if (user == null || user.PASSWORD != password)
             {
-                Console.WriteLine("User not found or incorrect password");
                 return null; // ❌ User not found or incorrect password
             }
 
