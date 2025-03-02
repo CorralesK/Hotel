@@ -5,8 +5,6 @@ using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
-using Hotel.src.Infrastructure.Repositories;
-using Hotel.src.Application.Services.Jobs;
 using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.ConsoleUI
@@ -216,13 +214,14 @@ namespace Hotel.src.ConsoleUI
 
                 Console.WriteLine("\nFactura generada con éxito:");
                 Console.WriteLine($"ID: {invoice.ID}, Fecha: {invoice.DateIssued}, Total: {invoice.TotalAmount}");
-/*
-                Console.WriteLine("\nDetalles:");
-                foreach (var detail in invoice.InvoiceDetails)
+
+                var uniqueDetails = new HashSet<InvoiceDetail>(invoice.InvoiceDetails);
+                foreach (var detail in uniqueDetails)
                 {
-                    Console.WriteLine($"Habitación: {detail.RoomID}, Precio: {detail.Price}");
+                    Console.WriteLine($"Habitación: {detail.Room.TYPE} | Precio Total: {detail.Price}" +
+                        $"| Fecha de la reserva | Desde: {detail.Reservation.STARTDATE}| Hasta:{detail.Reservation.ENDDATE} ");
                 }
-*/
+
             }
             catch (Exception ex)
             {
