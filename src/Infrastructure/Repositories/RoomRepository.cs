@@ -101,25 +101,30 @@ namespace Hotel.src.Infrastructure.Repositories
         /// <param name="endDate">The end date of the desired stay.</param>
         /// <returns>A list of Room objects that are available within the specified date range.</returns>
         /// <exception cref="ArgumentException">Thrown if the end date is earlier than the start date.</exception>
-        public IEnumerable<Room> HasReservationsInDateRange(DateTime startDate, DateTime endDate)
+        
+      public IEnumerable<Room> HasReservationsInDateRange(DateTime startDate, DateTime endDate)
+      {
+          if (endDate < startDate)
         {
-            // Validate the date range
-            if (endDate < startDate)
-            {
-                throw new ArgumentException("La fecha de fin no puede ser menor a la fecha de inicio.");
-            }
+            throw new ArgumentException("La fecha de fin no puede ser menor a la fecha de inicio.");
+        }
 
-            // Get the IDs of rooms that have confirmed reservations within the date range
-            var reservedRoomIds = _context.Reservations
-                .Where(r => r.STATUS == ReservationStatus.Confirmada &&
-                            ((r.STARTDATE < endDate && r.ENDDATE > startDate)))
-                .Select(r => r.ID)
-                .Distinct()
-                .ToList();
+ 
+            var reservedRoomIds = _context.ReservationRooms
+            .Join(_context.Reservations, 
+                rr => rr.ReservationID, 
+                r => r.ID, 
+                (rr, r) => new { rr.RoomID, r.STARTDATE, r.ENDDATE, r.STATUS })
+            .Where(x => x.STATUS == ReservationStatus.Confirmada &&
+                    x.STARTDATE < endDate && x.ENDDATE > startDate) // Verificar el solapamiento de fechas
+            .Select(x => x.RoomID) // Seleccionar solo el RoomID de las reservas confirmadas
+            .Distinct()
+            .ToList();
 
+            // Retornar las habitaciones que no están reservadas en el rango de fechas
             return _context.Rooms
-                .Where(r => !reservedRoomIds.Contains(r.ID))
-                .ToList();
+            .Where(r => !reservedRoomIds.Contains(r.ID)) // Filtrar habitaciones que no están en el listado de reservas
+            .ToList();
         }
     }
 }
