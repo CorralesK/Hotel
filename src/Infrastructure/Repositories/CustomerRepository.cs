@@ -20,5 +20,10 @@ namespace Hotel.src.Infrastructure.Repositories
             _dbContext.SaveChanges();
             return user;
         }
+
+        public User GetbyId(int id)
+        {
+            return _dbContext.Users.Find(id);
+        }
     }
 }

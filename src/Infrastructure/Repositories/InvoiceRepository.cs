@@ -1,45 +1,22 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Interfaces.IRepository;
+using Hotel.src.Infrastructure.Data;
 
 namespace Hotel.src.Infrastructure.Repositories
 {
     public class InvoiceRepository : IInvoiceRepository
     {
-        private readonly List<Invoice> _invoices = new();
-
-        public Invoice GetById(int id)
+        private readonly ApplicationDbContext _dbContext;
+        public InvoiceRepository(ApplicationDbContext dbContext)
         {
-            return _invoices.FirstOrDefault(i => i.ID == id);
+            _dbContext = dbContext;
+        }
+        public Invoice AddInvoice(Invoice invoice)
+        {
+            _dbContext.Invoices.Add(invoice);
+            _dbContext.SaveChanges();
+            return invoice;
         }
 
-        public List<Invoice> GetAll()
-        {
-            return _invoices;
-        }
-
-        public void Add(Invoice invoice)
-        {
-            _invoices.Add(invoice);
-        }
-
-        public void Update(Invoice invoice)
-        {
-            var existingInvoice = GetById(invoice.ID);
-            if (existingInvoice != null)
-            {
-                existingInvoice.DateIssued = invoice.DateIssued;
-                existingInvoice.TotalAmount = invoice.TotalAmount;
-                existingInvoice.InvoiceDetails = invoice.InvoiceDetails;
-            }
-        }
-
-        public void Delete(int id)
-        {
-            var invoice = GetById(id);
-            if (invoice != null)
-            {
-                _invoices.Remove(invoice);
-            }
-        }
     }
 }

@@ -5,6 +5,10 @@ namespace Hotel.src.Core.Entities
 {
     public class InvoiceDetail
     {
+        public InvoiceDetail()
+        {
+        }
+
         [Key]
         public int ID { get; set; }
 

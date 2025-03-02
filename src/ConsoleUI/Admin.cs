@@ -5,7 +5,9 @@ using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
+using Hotel.src.Infrastructure.Repositories;
 using Hotel.src.Application.Services.Jobs;
+using Hotel.src.Core.Interfaces.IRepository;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -44,7 +46,7 @@ namespace Hotel.src.ConsoleUI
                 case "3":
                     break;
                 case "4":
-                    // GenerateInvoice();
+                    ShowReservations();
                     break;
                 case "5":
                     ReadLogs();
@@ -201,30 +203,26 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
-
-        /*
-        private void GenerateInvoice()
+        private void GenerateInvoice(int reservationId)
         {
-            Console.Clear();
-            Console.Write("Ingrese el ID de la reserva: ");
-            int reservationId = int.Parse(Console.ReadLine());
-
             try
             {
                 var serviceProvider = ServiceConfigurator.ConfigureServices();
-                var reservationRepository = serviceProvider.GetRequiredService<ReservationRepository>();
-                var invoiceRepository = serviceProvider.GetRequiredService<InvoiceRepository>();
-                var billingService = new BillingService(reservationRepository, invoiceRepository);
+                var reservationRepository = serviceProvider.GetRequiredService<IReservationRepository>();
+                var invoiceRepository = serviceProvider.GetRequiredService<IInvoiceRepository>();
+                var invoiceDetailsRepository = serviceProvider.GetRequiredService<IInvoiceDetailsRepository>();
+                var billingService = new BillingService(reservationRepository, invoiceRepository, invoiceDetailsRepository);
                 var invoice = billingService.GenerateInvoice(reservationId);
 
                 Console.WriteLine("\nFactura generada con éxito:");
                 Console.WriteLine($"ID: {invoice.ID}, Fecha: {invoice.DateIssued}, Total: {invoice.TotalAmount}");
-
+/*
                 Console.WriteLine("\nDetalles:");
                 foreach (var detail in invoice.InvoiceDetails)
                 {
                     Console.WriteLine($"Habitación: {detail.RoomID}, Precio: {detail.Price}");
                 }
+*/
             }
             catch (Exception ex)
             {
@@ -234,7 +232,46 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
-        */
+        private void ShowReservations()
+        {
+            Console.Clear();
+            Console.WriteLine("=========================================");
+            Console.WriteLine("           LISTA DE RESERVAS            ");
+            Console.WriteLine("=========================================");
+
+            var serviceProvider = ServiceConfigurator.ConfigureServices();
+            var reservationRepository = serviceProvider.GetRequiredService<IReservationRepository>();
+            var customerRepository = serviceProvider.GetRequiredService<ICustomerRepository>();
+
+            var reservations = reservationRepository.GetByDateRange(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(30));
+
+            if (reservations.Count == 0)
+            {
+                Console.WriteLine("No hay reservas disponibles.");
+            }
+            else
+            {
+                foreach (var reservation in reservations)
+                {
+                    var user = customerRepository.GetbyId(reservation.USERID);
+                    var clientName = user != null ? user.NAME : "N/A";
+                    Console.WriteLine($"ID: {reservation.ID}, Cliente: {clientName}, Desde: {reservation.STARTDATE:yyyy-MM-dd}, Hasta:{reservation.ENDDATE:yyyy-MM-dd} ");
+                }
+
+                Console.Write("\nIngrese el ID de la reserva para generar la factura: ");
+                if (int.TryParse(Console.ReadLine(), out int reservationId))
+                {
+                    GenerateInvoice(reservationId);
+                }
+                else
+                {
+                    Console.WriteLine("ID inválido. Intente de nuevo.");
+                }
+            }
+
+            Console.ReadKey();
+            ShowMenu();
+        }
 
     }
 
