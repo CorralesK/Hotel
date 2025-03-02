@@ -13,6 +13,10 @@ namespace Hotel.src.Infrastructure.Repositories
         }
         public Invoice AddInvoice(Invoice invoice)
         {
+            if (invoice == null)
+            {
+                throw new ArgumentNullException(nameof(invoice), "La factura no puede ser nula.");
+            }
             _dbContext.Invoices.Add(invoice);
             _dbContext.SaveChanges();
             return invoice;
