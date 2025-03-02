@@ -19,7 +19,7 @@ namespace Hotel.src.Infrastructure.Repositories
 
             if (user == null)
             {
-                Console.WriteLine("⚠️ Usuario no encontrado.");
+                Console.WriteLine("❌ Usuario no encontrado. (email o contraseña incorrectos) Presione (Enter o Intro) para Intentar de Nuevo.");
             }
             else
             {
