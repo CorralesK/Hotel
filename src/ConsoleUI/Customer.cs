@@ -33,8 +33,10 @@ namespace Hotel.src.ConsoleUI
             switch (option)
             {
                 case "1":
+                    SearchRooms();
                     break;
                 case "2":
+                    ShowDisponibility();
                     break;
                 case "3":
 
@@ -188,6 +190,77 @@ namespace Hotel.src.ConsoleUI
                 Console.WriteLine($"\nError inesperado: {ex.Message}");
             }
 
+            Console.ReadKey();
+            ShowMenu();
+        }
+
+        private void ShowDisponibility()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=========================================");
+                Console.WriteLine("        CONSULTA DE DISPONIBILIDAD       ");
+                Console.WriteLine("=========================================");
+
+                // Solicitar fecha de entrada
+                Console.Write("\nIngrese la fecha de entrada (DD/MM/AAAA): ");
+                string startDateInput = Console.ReadLine();
+                if (!DateTime.TryParseExact(startDateInput, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime startDate))
+                {
+                    Console.WriteLine("Fecha de entrada inválida. Presione cualquier tecla para volver al menú.");
+                    Console.ReadKey();
+                    ShowMenu();
+                    return;
+                }
+
+                // Solicitar fecha de salida
+                Console.Write("Ingrese la fecha de salida (DD/MM/AAAA): ");
+                string endDateInput = Console.ReadLine();
+                if (!DateTime.TryParseExact(endDateInput, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime endDate))
+                {
+                    Console.WriteLine("Fecha de salida inválida. Presione cualquier tecla para volver al menú.");
+                    Console.ReadKey();
+                    ShowMenu();
+                    return;
+                }
+
+                // Validar que la fecha de salida sea posterior a la de entrada
+                if (endDate <= startDate)
+                {
+                    Console.WriteLine("La fecha de salida debe ser posterior a la de entrada. Presione cualquier tecla para volver al menú.");
+                    Console.ReadKey();
+                    ShowMenu();
+                    return;
+                }
+
+                // Llamar al servicio para obtener las habitaciones disponibles
+                var availableRooms = _roomService.CheckAvailability(startDate, endDate);
+
+                // Mostrar resultados
+                Console.Clear();
+                Console.WriteLine("=========================================");
+                Console.WriteLine("        HABITACIONES DISPONIBLES         ");
+                Console.WriteLine("=========================================");
+
+                if (availableRooms.Any())
+                {
+                    foreach (var room in availableRooms)
+                    {
+                        Console.WriteLine($"Habitación: {room.ROOMNUMBER}, Tipo: {room.TYPE}, Precio: {room.PRICEPERNIGHT} por noche, Capacidad: {room.CAPACITY}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nNo hay habitaciones disponibles para las fechas seleccionadas.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nError inesperado: {ex.Message}");
+            }
+
+            Console.WriteLine("\nPresione cualquier tecla para volver al menú.");
             Console.ReadKey();
             ShowMenu();
         }
