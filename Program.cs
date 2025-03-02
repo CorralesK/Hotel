@@ -28,7 +28,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("=========================================");
             Console.WriteLine("     SISTEMA DE RESERVAS DE HOTEL        ");
             Console.WriteLine("=========================================");
-            Console.WriteLine("\n1. Iniciar sesión\ne. Salir");
+            Console.WriteLine("\n1. Iniciar sesión\nS. Salir");
             Console.Write("Seleccione una opción: ");
             string option = Console.ReadLine();
 
@@ -46,7 +46,14 @@ namespace Hotel.src.ConsoleUI
                     string password = Console.ReadLine();
 
                     string token = authService.Authenticate(email, password);
-                    string role = jwtService.GetRoleFromToken(token);
+                    if (token == null)
+                    {
+                        Console.ReadKey();
+                        ShowStartScreen();
+                        break;
+                    }
+
+                    string role = jwtService.GetRoleFromToken(token);                   
                     SessionManager.SetSession(token);
 
                     if (Enum.Parse<RoleUser>(role) == RoleUser.Admin)
@@ -61,7 +68,7 @@ namespace Hotel.src.ConsoleUI
                     }
 
                     break;
-                case "e":
+                case "S":
                     Console.WriteLine("Saliendo del sistema...\n");
                     Environment.Exit(0);
                     break;
