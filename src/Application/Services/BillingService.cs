@@ -4,7 +4,7 @@ using Hotel.src.Core.Interfaces.IServices;
 
 namespace Hotel.src.Application.Services
 {
-    class BillingService : IBillingService
+    public class BillingService : IBillingService
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IInvoiceRepository _invoiceRepository;
