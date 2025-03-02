@@ -39,7 +39,7 @@ namespace Hotel.src.Infrastructure.Repositories
         // Método para obtener una reserva por su ID
         public Reservation GetById(int id)
         {
-            return _context.Reservations.FirstOrDefault(r => r.ID == id);
+            return _context.Reservations.Include(r => r.ReservationRooms).ThenInclude(rr => rr.Room).FirstOrDefault(r => r.ID == id);
         }
 
         // Método para obtener las reservas de un cliente

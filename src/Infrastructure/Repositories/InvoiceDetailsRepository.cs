@@ -16,12 +16,17 @@ namespace Hotel.src.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public InvoiceDetail AddInvoiceDetails(ICollection<InvoiceDetail> invoiceDetails)
+        public InvoiceDetail AddInvoiceDetail(InvoiceDetail invoiceDetail)
         {
-            _dbContext.InvoiceDetails.AddRange(invoiceDetails);  // ✅ Usa AddRange() para insertar la lista
+            if (invoiceDetail == null)
+            {
+                throw new ArgumentException("No hay detalles de factura para agregar.");
+            }
+
+            _dbContext.InvoiceDetails.Add(invoiceDetail);
             _dbContext.SaveChanges();
 
-            return invoiceDetails.FirstOrDefault();  // ✅ Devuelve el primer elemento (o null si está vacío)
+            return invoiceDetail;
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Hotel.src.Core.Interfaces.IRepository
 {
     public interface IInvoiceDetailsRepository
     {
-    InvoiceDetail AddInvoiceDetails(ICollection<InvoiceDetail> invoices);
+        InvoiceDetail AddInvoiceDetail(InvoiceDetail invoiceDetail);
     }
 }

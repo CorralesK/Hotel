@@ -5,26 +5,34 @@ namespace Hotel.src.Core.Entities
 {
     public class InvoiceDetail
     {
-        public InvoiceDetail()
-        {
-        }
-
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        [ForeignKey("Invoice")]
+        [Required]
         public int InvoiceID { get; set; }
         public Invoice Invoice { get; set; }
 
-        [ForeignKey("Room")]
+        [Required]
         public int RoomID { get; set; }
         public Room Room { get; set; }
 
-        [ForeignKey("Reservation")]
+        [Required]
         public int ReservationID { get; set; }
         public Reservation Reservation { get; set; }
 
         [Required]
-        public float Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
+
+        public InvoiceDetail() { }
+
+        public InvoiceDetail(int invoiceId, int roomId, int reservationId, decimal price)
+        {
+            InvoiceID = invoiceId;
+            RoomID = roomId;
+            ReservationID = reservationId;
+            Price = price;
+        }
     }
 }

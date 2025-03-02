@@ -1,8 +1,6 @@
 ﻿using Hotel.src.Core.Entities;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Core.Interfaces.IServices;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Hotel.src.Application.Services
 {
@@ -27,39 +25,37 @@ namespace Hotel.src.Application.Services
                 throw new Exception("La reserva no existe.");
             }
 
-            // Crear la factura usando TOTALPRICE de la reserva
-            Invoice invoice = new Invoice
+            if (reservation.ReservationRooms == null || !reservation.ReservationRooms.Any())
+            {
+                throw new Exception("No hay habitaciones asociadas a esta reserva.");
+            }
+
+
+            // Crear la factura sin detalles aún
+            var invoice = new Invoice
             {
                 DateIssued = DateTime.UtcNow,
                 TotalAmount = (float)reservation.TOTALPRICE,
                 InvoiceDetails = new List<InvoiceDetail>()
             };
 
-            // Guardar la factura primero para obtener un ID real
+            // Guardar la factura en la base de datos para obtener un ID real
             _invoiceRepository.AddInvoice(invoice);
-          
 
-            // Crear los detalles de la factura
+            // Generar detalles de factura
             foreach (var reservationRoom in reservation.ReservationRooms)
             {
-                invoice.InvoiceDetails.Add(new InvoiceDetail
-                {
-                    InvoiceID = invoice.ID,  // Ahora sí tiene un ID válido
-                    RoomID = reservationRoom.Room.ID,
-                    ReservationID = reservationId,
-                    Price = (float)(reservationRoom.Room.PRICEPERNIGHT * (reservation.ENDDATE - reservation.STARTDATE).TotalDays)
-                });
+                var nights = (reservation.ENDDATE - reservation.STARTDATE).TotalDays;
+                decimal roomPrice = (decimal)reservationRoom.Room.PRICEPERNIGHT * (decimal)nights;
+
+                InvoiceDetail invoiceDetail = new InvoiceDetail(invoice.ID, reservationRoom.Room.ID, reservationId, roomPrice);
+
+                // Guardar el detalle factura en la base de datos
+                var detail = _invoiceDetailsRepository.AddInvoiceDetail(invoiceDetail);
+                invoice.InvoiceDetails.Add(detail);
             }
 
-            // Agregar los detalles a la base de datos
-            _invoiceDetailsRepository.AddInvoiceDetails(invoice.InvoiceDetails);
-           
-/*
-            // Obtener los detalles guardados desde la base de datos
-            invoice.InvoiceDetails = _invoiceDetailsRepository.GetByInvoiceId(invoice.ID);
-*/
             return invoice;
-
         }
     }
 }
