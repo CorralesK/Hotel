@@ -15,6 +15,12 @@ namespace Hotel.src.Infrastructure.Repositories
 
         public User AddClient(User user)
         {
+            if (_dbContext.Users.Any(u => u.EMAIL == user.EMAIL))
+            {
+                Console.WriteLine("❌ Error: El correo electrónico ya está registrado.");
+                Console.WriteLine("⚠️ Presione (Enter o Intro) para Intentar de Nuevo.");
+                return null; // Evita que el programa continúe agregando el usuario
+            }
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
