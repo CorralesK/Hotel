@@ -11,6 +11,7 @@ namespace Hotel.src.Core.Interfaces.IRepository
         List<Reservation> GetByClientId(int clientId);
         List<Reservation> GetByDateRange(DateTime startDate, DateTime endDate);
         List<Reservation> GetUpcomingReservations(int daysAhead);
+        List<Reservation> GetConfirmedReservations(DateTime startDate, DateTime endDate);
 
     }
 }

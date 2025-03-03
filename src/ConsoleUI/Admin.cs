@@ -211,6 +211,12 @@ namespace Hotel.src.ConsoleUI
                 var invoiceDetailsRepository = serviceProvider.GetRequiredService<IInvoiceDetailsRepository>();
                 var billingService = new BillingService(reservationRepository, invoiceRepository, invoiceDetailsRepository);
                 var invoice = billingService.GenerateInvoice(reservationId);
+                var reservation = reservationRepository.GetById(reservationId);
+                if (reservation != null)
+                {
+                    reservation.STATUS = ReservationStatus.Pagada;
+                    reservationRepository.Update(reservation);
+                }
 
                 Console.WriteLine("\nFactura generada con éxito:");
                 Console.WriteLine($"ID: {invoice.ID}, Fecha: {invoice.DateIssued}, Total: {invoice.TotalAmount}");
@@ -242,7 +248,7 @@ namespace Hotel.src.ConsoleUI
             var reservationRepository = serviceProvider.GetRequiredService<IReservationRepository>();
             var customerRepository = serviceProvider.GetRequiredService<ICustomerRepository>();
 
-            var reservations = reservationRepository.GetByDateRange(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(30));
+            var reservations = reservationRepository.GetConfirmedReservations(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(30));
 
             if (reservations.Count == 0)
             {
