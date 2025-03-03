@@ -80,7 +80,7 @@ namespace Hotel.src.ConsoleUI
             reservation.USERID = clientId;
             reservation.STARTDATE = startDate;
             reservation.ENDDATE = endDate;
-            reservation.STATUS = ReservationStatus.Confirmada;
+            reservation.STATUS = ReservationStatus.Pendiente;
 
             _reservationService.RegisterReservation(reservation);
 
@@ -109,7 +109,7 @@ namespace Hotel.src.ConsoleUI
             while (addMoreRooms)
             {
                 Console.Write("\nIngrese el número de la habitación que desea reservar: ");
-                string roomNumber = Console.ReadLine();
+                string roomNumber = Console.ReadLine().ToUpper();
 
                 // Buscar la habitación por su número (ROOMNUMBER)
                 var room = availableRooms.FirstOrDefault(r => r.ROOMNUMBER == roomNumber);
@@ -118,6 +118,14 @@ namespace Hotel.src.ConsoleUI
                 {
                     Console.WriteLine("La habitación no existe o no está disponible. Intente con otro número.");
                     continue;
+                }
+                if (!availableRooms.Any())
+                {
+                    Console.WriteLine("\nNo hay habitaciones disponibles.");
+                    _reservationService.CancelRoomInReservation(reservation.ID, null);
+                    Console.ReadKey();
+                    ShowReservationMenu();
+                    return;
                 }
 
                 // Crear y añadir la relación reserva-habitación}
@@ -129,7 +137,6 @@ namespace Hotel.src.ConsoleUI
                     Room = room
                 };
 
-
                 var addreservationRoom = _reservationService.AddRoomToReservation(reservationRoom);
 
                 Console.Write("¿Desea añadir otra habitación? (S/N): ");
@@ -140,6 +147,7 @@ namespace Hotel.src.ConsoleUI
             // Verificar si se añadieron habitaciones
             if (reservation.ReservationRooms.Count == 0)
             {
+                _reservationService.CancelRoomInReservation(reservation.ID, null);
                 Console.WriteLine("\nNo se añadieron habitaciones a la reserva. La operación ha sido cancelada.");
                 Console.WriteLine("Presione cualquier tecla para continuar...");
                 Console.ReadKey();
@@ -148,6 +156,7 @@ namespace Hotel.src.ConsoleUI
             }
             // Calcular el precio total antes de guardar la reserva
             reservation.CalculateTotalPrice();
+            reservation.STATUS = ReservationStatus.Confirmada;
             // Registrar la reserva usando el servicio
             _reservationService.UpdateReservation(reservation);
             //_reservationService.RegisterReservation(reservation);

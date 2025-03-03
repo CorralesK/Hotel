@@ -29,10 +29,11 @@ namespace Hotel.src.Application.Services.Jobs
             // Obtener las reservas que se aproximan
             List<Reservation> upcomingReservations = _reservationRepository.GetUpcomingReservations(_notificationDaysAhead);
 
-
             LogService.LogNotification($"Ejecutando job de notificaciones de check-in ({DateTime.Now})...");
-            LogService.LogNotification($"Se encontraron {upcomingReservations.Count} reservas próximas.");
+            Console.WriteLine($"Ejecutando job de notificaciones de check-in ({DateTime.Now})...");
 
+            LogService.LogNotification($"Se encontraron {upcomingReservations.Count} reservas próximas.");
+            Console.WriteLine($"Se encontraron {upcomingReservations.Count} reservas próximas.");
 
             foreach (var reservation in upcomingReservations)
             {
@@ -59,20 +60,24 @@ namespace Hotel.src.Application.Services.Jobs
                     if (notificationSent)
                     {
                         LogService.LogNotification($"Notificación enviada a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
+                        Console.WriteLine($"Notificación enviada a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
                     }
                     else
                     {
                         LogService.LogNotification($"Error al enviar la notificación a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
+                        Console.WriteLine($"Error al enviar la notificación a {user.NAME} ({user.EMAIL}) para la reserva del {reservation.STARTDATE.ToShortDateString()}");
                     }
 
                 }
                 else
                 {
                     LogService.LogNotification($"No se pudo enviar notificación para la reserva ID {reservation.ID}: información de usuario incompleta");
+                    Console.WriteLine($"No se pudo enviar notificación para la reserva ID {reservation.ID}: información de usuario incompleta");
                 }
             }
 
             LogService.LogNotification("Job de notificaciones de check-in completado.");
+            Console.WriteLine("Job de notificaciones de check-in completado.");
         }
     }
 }
