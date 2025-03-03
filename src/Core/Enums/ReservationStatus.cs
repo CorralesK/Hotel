@@ -4,6 +4,7 @@
     {
         Cancelada,
         Confirmada,
+        Pendiente,
         Pagada
     }
 }

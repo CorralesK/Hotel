@@ -136,11 +136,14 @@ namespace Hotel.src.Application.Services
             {
                 throw new Exception("La habitación no está en la reserva.");
             }
+            if (reservation.STATUS == ReservationStatus.Pendiente)
+            {
+                reservation.STATUS = ReservationStatus.Cancelada;
+            }
 
             reservation.ReservationRooms.Remove(roomToRemove);
             reservation.CalculateTotalPrice();
 
-            // Si la reserva ya no tiene habitaciones, se cancela completamente.
             if (!reservation.ReservationRooms.Any())
             {
                 reservation.STATUS = ReservationStatus.Cancelada;
