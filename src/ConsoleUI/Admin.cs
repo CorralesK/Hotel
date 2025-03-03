@@ -128,7 +128,7 @@ namespace Hotel.src.ConsoleUI
             {
                 foreach (var error in result.Errors)
                 {
-                    Console.WriteLine($"- {error.ErrorMessage}");
+                    Console.WriteLine($"- {error.ErrorMessage} Presione cualquier tecla para volver al menú.");
                 }
                 Console.ReadKey();
                 Console.WriteLine("Datos no validos.Ingrese nuevamente");
