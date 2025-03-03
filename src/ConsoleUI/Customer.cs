@@ -264,6 +264,11 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
+        public void ReturnToMenu()
+        {
 
+            ShowMenu();
+
+        }
     }
 }

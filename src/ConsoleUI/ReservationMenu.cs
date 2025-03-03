@@ -42,7 +42,7 @@ namespace Hotel.src.ConsoleUI
                     ShowReservationsHistory();
                     break;
                 case "4":
-                    Program.ShowStartScreen();
+                    _customerMenu.ReturnToMenu();
                     break;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
@@ -200,7 +200,7 @@ namespace Hotel.src.ConsoleUI
             }
 
             // Seleccionar reserva
-            Console.Write("\nSeleccione el número de la reserva que desea modificar: ");
+            Console.Write("\nSeleccione el número (1,2,3..) de la reserva que desea modificar: ");
             int selectedReservationIndex;
             while (!int.TryParse(Console.ReadLine(), out selectedReservationIndex) || selectedReservationIndex < 1 || selectedReservationIndex > activeReservations.Count)
             {
@@ -221,7 +221,7 @@ namespace Hotel.src.ConsoleUI
             }
 
             // Seleccionar habitación a cancelar
-            Console.Write("\nSeleccione el número de la habitación que desea cancelar: ");
+            Console.Write("\nSeleccione el número (1,2,3..) de la habitación que desea cancelar: ");
             int selectedRoomIndex;
             while (!int.TryParse(Console.ReadLine(), out selectedRoomIndex) || selectedRoomIndex < 1 || selectedRoomIndex > selectedReservation.ReservationRooms.Count)
             {

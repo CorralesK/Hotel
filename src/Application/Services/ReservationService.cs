@@ -64,6 +64,11 @@ namespace Hotel.src.Application.Services
             {
                 throw new ArgumentNullException(nameof(reservation), "La reserva no puede ser nula.");
             }
+            if(reservation.ReservationRooms == null || !reservation.ReservationRooms.Any())
+            {
+                CancelRoomInReservation(reservation.ID, null);
+                return;
+            }
 
             _reservationRepository.Update(reservation);
         }
@@ -115,7 +120,7 @@ namespace Hotel.src.Application.Services
         /// <exception cref="Exception">
         /// Se lanza si la reserva no existe, ya se encuentra cancelada o si la habitación no se encuentra en la reserva.
         /// </exception>
-        public void CancelRoomInReservation(int reservationId, int roomId)
+        public void CancelRoomInReservation(int reservationId, int? roomId)
         {
             var reservation = _reservationRepository.GetById(reservationId);
             if (reservation == null)
