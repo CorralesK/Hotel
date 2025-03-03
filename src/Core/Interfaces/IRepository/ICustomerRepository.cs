@@ -4,7 +4,7 @@ namespace Hotel.src.Core.Interfaces.IRepository
 {
     public interface ICustomerRepository
     {
-        User AddCliente(User user);
+        User AddClient(User user);
         User GetbyId(int id);
     }
 }

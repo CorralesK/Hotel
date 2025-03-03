@@ -117,15 +117,12 @@ namespace Hotel.src.ConsoleUI
             user.EMAIL = ReadLines();
             PrintLine("Ingrese la contraseña del cliente: ");
             user.PASSWORD = ReadLines();
-            PrintLine("Ingrese el Tipo de Cliente (1 - Administrador, 0 - Cliente): ");
-            string role = ReadLines();
-            user.ROLE = Enum.Parse<RoleUser>(role);
-
+            user.ROLE = RoleUser.User;
 
             UserValidator validator = new UserValidator();
             ValidationResult result = validator.Validate(user);
 
-            // Verificar si el objeto es válido o no
+            // Check if the object is valid or not
             if (result.IsValid)
             {
                 registerService.RegisterCustomer(user);

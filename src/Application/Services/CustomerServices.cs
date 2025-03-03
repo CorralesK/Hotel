@@ -16,7 +16,7 @@ namespace Hotel.src.Application.Services
         public User RegisterCustomer(User user)
         {
 
-            return _customerRepository.AddCliente(user);
+            return _customerRepository.AddClient(user);
 
         }
     }

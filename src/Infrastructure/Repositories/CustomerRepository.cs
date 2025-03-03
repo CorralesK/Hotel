@@ -13,7 +13,7 @@ namespace Hotel.src.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public User AddCliente(User user)
+        public User AddClient(User user)
         {
 
             _dbContext.Users.Add(user);
