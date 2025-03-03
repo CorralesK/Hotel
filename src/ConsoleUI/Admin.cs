@@ -21,9 +21,7 @@ namespace Hotel.src.ConsoleUI
         public void ShowMenu()
         {
             Console.Clear();
-            Console.WriteLine("=========================================");
-            Console.WriteLine("             MENÚ DE ADMINISTRADOR       ");
-            Console.WriteLine("=========================================");
+            GenerateHeader("MENÚ DE ADMINISTRADOR");
             Console.WriteLine("\n1. Registrar habitación");
             Console.WriteLine("2. Registrar cliente");
             Console.WriteLine("3. Ver reportes");
@@ -65,9 +63,8 @@ namespace Hotel.src.ConsoleUI
             try
             {
                 Console.Clear();
-                Console.WriteLine("=========================================");
-                Console.WriteLine("     REGISTRO DE HABITACIÓN             ");
-                Console.WriteLine("=========================================");
+                GenerateHeader("REGISTRO DE HABITACIÓN");
+
                 Console.Write("Ingrese el número de la habitación: ");
                 string roomNumber = Console.ReadLine();
 
@@ -162,9 +159,7 @@ namespace Hotel.src.ConsoleUI
             try
             {
                 Console.Clear();
-                Console.WriteLine("=========================================");
-                Console.WriteLine("              LEER ARCHIVO DE LOGS      ");
-                Console.WriteLine("=========================================");
+                GenerateHeader("LEER ARCHIVO DE LOGS");
 
                 // Solicitar fecha en formato yyyy-MM-dd
                 Console.Write("Ingrese la fecha en formato (yyyy-MM-dd) para leer los logs: ");
@@ -240,9 +235,7 @@ namespace Hotel.src.ConsoleUI
         private void ShowReservations()
         {
             Console.Clear();
-            Console.WriteLine("=========================================");
-            Console.WriteLine("           LISTA DE RESERVAS            ");
-            Console.WriteLine("=========================================");
+            GenerateHeader("LISTA DE RESERVAS");
 
             var serviceProvider = ServiceConfigurator.ConfigureServices();
             var reservationRepository = serviceProvider.GetRequiredService<IReservationRepository>();
