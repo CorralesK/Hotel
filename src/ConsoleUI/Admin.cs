@@ -142,7 +142,7 @@ namespace Hotel.src.ConsoleUI
             {
                 foreach (var error in result.Errors)
                 {
-                    Console.WriteLine($"- {error.ErrorMessage} Presione cualquier tecla para volver al menú.");
+                    Console.WriteLine($"- {error.ErrorMessage}");
                 }
                 Console.ReadKey();
                 Console.WriteLine("Datos no validos.Ingrese nuevamente");
@@ -176,7 +176,6 @@ namespace Hotel.src.ConsoleUI
             startDate = ReadDate("Ingrese la fecha de inicio (dd/MM/yyyy): ");
             endDate = ReadDate("Ingrese la fecha de fin (dd/MM/yyyy): ", startDate);
 
-            // Opción menos recomendada (rompe el principio de DI)
             var repository = new OccupancyRepository();
             var service = new OccupancyReportService(repository);
             var report = service.GenerateOccupancyReport(startDate, endDate);
@@ -191,7 +190,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("--- Ocupación por Tipo de Habitación ---");
             foreach (var type in report.OccupancyByType)
             {
-                Console.WriteLine($"Tipo: {type.RoomType}, Reservas: {type.ReservationsCount}, " +   
+                Console.WriteLine($"Tipo: {type.RoomType}, Reservas: {type.ReservationsCount}, " +
                                   $"Tasa de Ocupación: {type.OccupancyRateType:P2}");
             }
 

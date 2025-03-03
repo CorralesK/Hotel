@@ -33,8 +33,6 @@ namespace Hotel
                 .AddScoped<Customer>()   // Registrar User
                 .AddScoped<INotificationSender, EmailNotificationSender>()
                 .AddScoped<INotificationService, NotificationService>()
-                //.AddScoped<CheckInNotificationJob>()
-                // En Program.cs o Startup.cs
                 .AddScoped<IOccupancyRepository, OccupancyRepository>()
                 .AddScoped<IOccupancyReportService, OccupancyReportService>()
                 .AddScoped<ReservationMenu>()
