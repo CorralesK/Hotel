@@ -24,6 +24,7 @@ namespace Hotel.src.Infrastructure.Repositories
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
+            Console.WriteLine("✅ Éxito: Usuario registrado correctamente.(precione una tecla para continuar ...)");
             return user;
         }
 
