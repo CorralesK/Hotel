@@ -42,7 +42,7 @@ namespace Hotel.src.ConsoleUI
                     RegisterCustumer();
                     break;
                 case "3":
-                    Console.WriteLine("Reportes...");
+                    GenerateOccupancyReport();
                     Console.ReadKey();
                     ShowMenu();
                     break;
@@ -164,6 +164,65 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine(message);
         }
         public string ReadLines() => Console.ReadLine();
+
+        private async Task GenerateOccupancyReport()
+        {
+            Console.Clear();
+            Console.WriteLine("===== Generar Reporte de Ocupación =====\n");
+
+            DateTime startDate, endDate;
+
+            startDate = ReadDate("Ingrese la fecha de inicio (dd/MM/yyyy): ");
+            endDate = ReadDate("Ingrese la fecha de fin (dd/MM/yyyy): ", startDate);
+
+            var service = new OccupancyReportService();
+            var report = service.GenerateOccupancyReport(startDate, endDate);
+
+            Console.Clear();
+            Console.WriteLine("===== Reporte de Ocupación =====\n");
+            Console.WriteLine($"Rango de fechas: {startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}");
+            Console.WriteLine($"Total de Habitaciones: {report.TotalRooms}");
+            Console.WriteLine($"Tasa de Ocupación General: {report.OccupancyRate:P2}");
+            Console.WriteLine($"Ingresos Totales (solo reservas pagadas): {report.TotalIncome:C}\n");
+
+            Console.WriteLine("--- Ocupación por Tipo de Habitación ---");
+            foreach (var type in report.OccupancyByType)
+            {
+                Console.WriteLine($"Tipo: {type.RoomType}, Reservas: {type.ReservationsCount}, " +   
+                                  $"Tasa de Ocupación: {type.OccupancyRateType:P2}");
+            }
+
+            Console.WriteLine("\n--- Ocupación Diaria ---");
+            foreach (var day in report.DailyOccupancy)
+            {
+                Console.WriteLine($"Fecha: {day.Day:dd/MM/yyyy}, Habitaciones Ocupadas: {day.OccupiedRooms}" +
+                                  $", Tasa de Ocupación: {day.OccupancyRateDay:P2}");
+            }
+
+            Console.WriteLine("\nPresione cualquier tecla para continuar...");
+            Console.ReadKey();
+            ShowMenu();
+        }
+
+
+        private DateTime ReadDate(string message, DateTime? minDate = null)
+        {
+            DateTime date;
+            while (true)
+            {
+                Console.Write(message);
+                if (DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out date))
+                {
+                    if (minDate == null || date >= minDate)
+                        return date;
+                    Console.WriteLine("La fecha de fin no puede ser anterior a la de inicio. Intente de nuevo.\n");
+                }
+                else
+                {
+                    Console.WriteLine("Formato inválido. Intente de nuevo.\n");
+                }
+            }
+        }
 
 
         private void ReadLogs()
