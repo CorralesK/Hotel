@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Application.Services.Jobs;
+using Hotel.src.Infrastructure.Repositories;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -175,7 +176,9 @@ namespace Hotel.src.ConsoleUI
             startDate = ReadDate("Ingrese la fecha de inicio (dd/MM/yyyy): ");
             endDate = ReadDate("Ingrese la fecha de fin (dd/MM/yyyy): ", startDate);
 
-            var service = new OccupancyReportService();
+            // Opción menos recomendada (rompe el principio de DI)
+            var repository = new OccupancyRepository();
+            var service = new OccupancyReportService(repository);
             var report = service.GenerateOccupancyReport(startDate, endDate);
 
             Console.Clear();

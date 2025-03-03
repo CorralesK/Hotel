@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Hotel.src.Core.Entities
 {
-public class OccupancyReport
+    public class OccupancyReport
     {
         public int TotalRooms { get; set; }
-        public decimal TotalIncome { get; set; }
-        public decimal OccupancyRate { get; set; }
+        public double TotalIncome { get; set; }
+        public double OccupancyRate { get; set; }
         public List<ReportByType> OccupancyByType { get; set; } = new List<ReportByType>();
         public List<DailyReport> DailyOccupancy { get; set; } = new List<DailyReport>();
 
@@ -20,7 +20,7 @@ public class OccupancyReport
             public int ReservationsCount { get; set; }
             public int OccupiedDays { get; set; }
             public int AvailableDays { get; set; }
-            public decimal OccupancyRateType { get; set; }
+            public double OccupancyRateType { get; set; }
         }
 
         public class DailyReport
