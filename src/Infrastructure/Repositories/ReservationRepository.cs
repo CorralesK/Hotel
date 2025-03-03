@@ -163,9 +163,14 @@ namespace Hotel.src.Infrastructure.Repositories
         }
         public List<Reservation> GetConfirmedReservations(DateTime startDate, DateTime endDate)
         {
+            if (endDate < startDate)
+            {
+                throw new ArgumentException("La fecha de fin no puede ser menor a la fecha de inicio.");
+            }
             return _context.Reservations
-                .Where(r => r.STARTDATE >= startDate
-                         && r.ENDDATE <= endDate
+                .AsTracking()
+                .Where(r => r.STARTDATE.Date >= startDate
+                         && r.ENDDATE.Date <= endDate
                          && r.STATUS == ReservationStatus.Confirmada)
                 .ToList();
         }
