@@ -1,4 +1,5 @@
 ﻿using Hotel.src.Core.Entities;
+using Hotel.src.Core.Enums;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -158,6 +159,14 @@ namespace Hotel.src.Infrastructure.Repositories
                 .Include(r => r.ReservationRooms)
                 .ThenInclude(rr => rr.Room)
                 .Where(r => (r.STARTDATE.Date - today).Days == daysAhead)
+                .ToList();
+        }
+        public List<Reservation> GetConfirmedReservations(DateTime startDate, DateTime endDate)
+        {
+            return _context.Reservations
+                .Where(r => r.STARTDATE >= startDate
+                         && r.ENDDATE <= endDate
+                         && r.STATUS == ReservationStatus.Confirmada)
                 .ToList();
         }
     }
