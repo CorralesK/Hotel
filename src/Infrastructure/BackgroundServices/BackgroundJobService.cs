@@ -33,7 +33,15 @@ namespace Hotel.src.Infrastructure.BackgroundServices
         {
             var serviceProvider = ServiceConfigurator.ConfigureServices();
             var job = serviceProvider.GetRequiredService<CheckInNotificationJob>();
-            job.Execute();
+
+            // Ejecutar siempre en modo silencioso
+            using (var sw = new System.IO.StringWriter())
+            {
+                Console.SetOut(sw);
+                job.Execute();
+                Console.SetOut(new System.IO.StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+            }
         }
+
     }
 }

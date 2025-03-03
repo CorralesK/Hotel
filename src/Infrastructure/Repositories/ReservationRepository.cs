@@ -147,18 +147,17 @@ namespace Hotel.src.Infrastructure.Repositories
         /// <exception cref="ArgumentException">Se lanza si daysAhead es negativo.</exception>
         public List<Reservation> GetUpcomingReservations(int daysAhead)
         {
-            if (daysAhead < 0)
-            {
-                throw new ArgumentException("El parámetro daysAhead no puede ser negativo.");
-            }
+            // Obtener la fecha objetivo local (sin hora)
+            DateTime targetDateLocal = DateTime.Now.Date.AddDays(daysAhead);
 
-            DateTime today = DateTime.UtcNow.Date;
+            // Convertir la fecha objetivo local a UTC
+            DateTime targetDateUtc = TimeZoneInfo.ConvertTimeToUtc(targetDateLocal, TimeZoneInfo.Local);
 
             return _context.Reservations
                 .Include(r => r.User)
                 .Include(r => r.ReservationRooms)
                 .ThenInclude(rr => rr.Room)
-                .Where(r => (r.STARTDATE.Date - today).Days == daysAhead)
+                .Where(r => r.STARTDATE.Date == targetDateUtc.Date)
                 .ToList();
         }
         public List<Reservation> GetConfirmedReservations(DateTime startDate, DateTime endDate)

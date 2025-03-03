@@ -6,6 +6,7 @@ using Hotel.src.Core.Interfaces.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
 using Hotel.src.Core.Interfaces.IRepository;
+using Hotel.src.Application.Services.Jobs;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -26,8 +27,9 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("2. Registrar cliente");
             Console.WriteLine("3. Ver reportes");
             Console.WriteLine("4. Generar factura");
-            Console.WriteLine("5. Ver logs de notificaciones check-in");
-            Console.WriteLine("6. Salir");
+            Console.WriteLine("5. Ejecutar job de notificaciones check-in");
+            Console.WriteLine("6. Ver logs de notificaciones check-in");
+            Console.WriteLine("7. Salir");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -40,14 +42,25 @@ namespace Hotel.src.ConsoleUI
                     RegisterCustumer();
                     break;
                 case "3":
+                    Console.WriteLine("Reportes...");
+                    Console.ReadKey();
+                    ShowMenu();
                     break;
                 case "4":
                     ShowReservations();
                     break;
                 case "5":
-                    ReadLogs();
+                    var serviceProvider = ServiceConfigurator.ConfigureServices();
+                    var job = serviceProvider.GetRequiredService<CheckInNotificationJob>();
+                    job.Execute();
+                    Console.WriteLine("Presione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    ShowMenu();
                     break;
                 case "6":
+                    ReadLogs();
+                    break;
+                case "7":
                     Program.ShowStartScreen();
                     break;
                 default:
@@ -160,12 +173,12 @@ namespace Hotel.src.ConsoleUI
                 Console.Clear();
                 GenerateHeader("LEER ARCHIVO DE LOGS");
 
-                // Solicitar fecha en formato yyyy-MM-dd
-                Console.Write("Ingrese la fecha en formato (yyyy-MM-dd) para leer los logs: ");
+                // Solicitar fecha en formato dd/MM/yyyy
+                Console.Write("Ingrese la fecha en formato (dd/MM/yyyy) para leer los logs: ");
                 string dateInput = Console.ReadLine();
                 DateTime selectedDate;
 
-                if (DateTime.TryParse(dateInput, out selectedDate))
+                if (DateTime.TryParseExact(dateInput, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out selectedDate))
                 {
                     string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", $"logs_{selectedDate:yyyy-MM-dd}.txt");
 
@@ -173,7 +186,7 @@ namespace Hotel.src.ConsoleUI
                     {
                         string logContents = File.ReadAllText(logFilePath);
                         Console.WriteLine("\n=========================================");
-                        Console.WriteLine($"      Logs del {selectedDate:yyyy-MM-dd}      ");
+                        Console.WriteLine($"      Logs del {selectedDate:dd/MM/yyyy}      ");
                         Console.WriteLine("=========================================");
                         Console.WriteLine(logContents);
                     }
@@ -195,6 +208,7 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
+
         private void GenerateInvoice(int reservationId)
         {
             try
