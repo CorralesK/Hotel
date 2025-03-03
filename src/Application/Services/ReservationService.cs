@@ -139,6 +139,7 @@ namespace Hotel.src.Application.Services
             if (reservation.STATUS == ReservationStatus.Pendiente)
             {
                 reservation.STATUS = ReservationStatus.Cancelada;
+                throw new Exception("La reserva esta cancelada.");
             }
 
             reservation.ReservationRooms.Remove(roomToRemove);
