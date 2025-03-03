@@ -37,6 +37,7 @@ namespace Hotel
                 .AddScoped<IOccupancyReportService, OccupancyReportService>()
                 .AddScoped<ReservationMenu>()
                 .AddScoped<ReservationService>()
+                .AddScoped<CheckInNotificationJob>()
                 .BuildServiceProvider();
         }
 
