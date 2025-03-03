@@ -3,6 +3,7 @@ using Hotel.src.Application.Services;
 using Hotel.src.Application.Services.Jobs;
 using Hotel.src.ConsoleUI;
 using Hotel.src.Core.Interfaces;
+using Hotel.src.Core.Interfaces.IRepositories;
 using Hotel.src.Core.Interfaces.IRepository;
 using Hotel.src.Core.Interfaces.IServices;
 using Hotel.src.Infrastructure.Data;
@@ -32,9 +33,10 @@ namespace Hotel
                 .AddScoped<Customer>()   // Registrar User
                 .AddScoped<INotificationSender, EmailNotificationSender>()
                 .AddScoped<INotificationService, NotificationService>()
-                .AddScoped<CheckInNotificationJob>()
-                .AddScoped<IOccupancyReportService>(provider =>
-                new OccupancyReportService())
+                //.AddScoped<CheckInNotificationJob>()
+                // En Program.cs o Startup.cs
+                .AddScoped<IOccupancyRepository, OccupancyRepository>()
+                .AddScoped<IOccupancyReportService, OccupancyReportService>()
                 .AddScoped<ReservationMenu>()
                 .AddScoped<ReservationService>()
                 .BuildServiceProvider();
