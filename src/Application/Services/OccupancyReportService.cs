@@ -1,4 +1,5 @@
-﻿using Hotel.src.Core.Entities;
+﻿using dotenv.net;
+using Hotel.src.Core.Entities;
 using Hotel.src.Core.Interfaces.IServices;
 using Npgsql;
 using System;
@@ -12,15 +13,23 @@ namespace Hotel.src.Application.Services
 
     public class OccupancyReportService : IOccupancyReportService
     {
-        // Connection string hardcodeado
-        private const string ConnectionString = "Host=localhost;Database=Hotel;UserName=postgres;Password=123;";
+        private readonly string _connectionString;
+
+        public OccupancyReportService()
+        {
+            DotEnv.Load();
+            _connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+        }
+
+  
 
         public OccupancyReport GenerateOccupancyReport(DateTime startDate, DateTime endDate)
         {
+
             var report = new OccupancyReport();
             int daysInPeriod = (endDate - startDate).Days + 1;
 
-            using var conn = new NpgsqlConnection(ConnectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
             conn.Open();
             // 1. Total de habitaciones
             report.TotalRooms = GetTotalRooms(conn);
