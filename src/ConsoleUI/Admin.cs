@@ -123,7 +123,6 @@ namespace Hotel.src.ConsoleUI
             if (result.IsValid)
             {
                 registerService.RegisterCustomer(user);
-                Console.WriteLine("Usuario registrado correctamente.");
             }
             else
             {
@@ -131,6 +130,9 @@ namespace Hotel.src.ConsoleUI
                 {
                     Console.WriteLine($"- {error.ErrorMessage}");
                 }
+                Console.ReadKey();
+                Console.WriteLine("Datos no validos.Ingrese nuevamente");
+                ShowMenu();
             }
 
             Console.ReadKey();
