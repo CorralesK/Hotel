@@ -33,6 +33,8 @@ namespace Hotel
                 .AddScoped<INotificationSender, EmailNotificationSender>()
                 .AddScoped<INotificationService, NotificationService>()
                 .AddScoped<CheckInNotificationJob>()
+                .AddScoped<IOccupancyReportService>(provider =>
+                new OccupancyReportService())
                 .AddScoped<ReservationMenu>()
                 .AddScoped<ReservationService>()
                 .BuildServiceProvider();
