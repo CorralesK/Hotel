@@ -21,7 +21,7 @@ namespace Hotel.src.Infrastructure.Repositories
                 Console.WriteLine("⚠️ Presione (Enter o Intro) para Intentar de Nuevo.");
                 return null; // Evita que el programa continúe agregando el usuario
             }
-
+            Console.WriteLine("✅ Usuario registrado: Presione (Enter o Intro) para Continuar .");
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
             return user;

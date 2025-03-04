@@ -8,7 +8,6 @@ namespace Hotel.src.ConsoleUI
     {
         private readonly ReservationService _reservationService;
         private readonly RoomService _roomService;
-        private readonly Customer _customerMenu;
         public User user;
 
         public ReservationMenu(ReservationService reservationService, RoomService roomService)
@@ -26,7 +25,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\n1. Registrar nueva reserva");
             Console.WriteLine("2. Cancelar habitación en reserva");
             Console.WriteLine("3. Historial de reservas");
-            Console.WriteLine("4. Regresar al menú principal");
+            Console.WriteLine("4. Cerrar Sesión");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -42,7 +41,7 @@ namespace Hotel.src.ConsoleUI
                     ShowReservationsHistory();
                     break;
                 case "4":
-                    _customerMenu.ReturnToMenu();
+                    Program.ShowStartScreen();
                     break;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
