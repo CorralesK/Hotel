@@ -31,7 +31,7 @@ namespace Hotel.src.Application.Services
             }
 
 
-            // Crear la factura sin detalles aún
+            // Create invoice without details yet
             var invoice = new Invoice
             {
                 DateIssued = DateTime.UtcNow,
@@ -39,10 +39,10 @@ namespace Hotel.src.Application.Services
                 InvoiceDetails = new List<InvoiceDetail>()
             };
 
-            // Guardar la factura en la base de datos para obtener un ID real
+            // Save the invoice in the database to get a real ID
             _invoiceRepository.AddInvoice(invoice);
 
-            // Generar detalles de factura
+            // Generate invoice details
             foreach (var reservationRoom in reservation.ReservationRooms)
             {
                 var nights = (reservation.ENDDATE - reservation.STARTDATE).TotalDays;
@@ -50,7 +50,7 @@ namespace Hotel.src.Application.Services
 
                 InvoiceDetail invoiceDetail = new InvoiceDetail(invoice.ID, reservationRoom.Room.ID, reservationId, roomPrice);
 
-                // Guardar el detalle factura en la base de datos
+                // Save the invoice detail in the database
                 var detail = _invoiceDetailsRepository.AddInvoiceDetail(invoiceDetail);
                 invoice.InvoiceDetails.Add(detail);
             }

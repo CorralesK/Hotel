@@ -9,19 +9,19 @@ namespace Hotel.src.Application.Services
         private readonly IReservationRepository _reservationRepository;
 
         /// <summary>
-        /// Inicializa una nueva instancia de <see cref="ReservationService"/>.
+        /// Initializes a new instance of <see cref="ReservationService"/>.
         /// </summary>
-        /// <param name="reservationRepository">Repositorio para acceder a los datos de las reservas.</param>
+        /// <param name="reservationRepository">Repository for accessing reservation data.</param>
         public ReservationService(IReservationRepository reservationRepository)
         {
             _reservationRepository = reservationRepository;
         }
         /// <summary>
-        /// Registra una nueva reserva en el sistema.
+        /// Register a new reservation in the system.
         /// </summary>
-        /// <param name="reservation">La reserva a registrar.</param>
-        /// <exception cref="ArgumentNullException">Se lanza si la reserva es nula.</exception>
-        /// <exception cref="Exception">Se lanza si las fechas de la reserva son inválidas o si ocurre un error durante el registro.</exception>
+        /// <param name=“reservation”>The reservation to register.
+        /// <exception cref=“ArgumentNullException”>Throws if the reservation is null.</exception>.
+        /// <exception cref=“Exception”>Thrown if the reservation dates are invalid or if an error occurs during registration.</exception>
         public void RegisterReservation(Reservation reservation)
         {
             if (reservation == null)
@@ -38,11 +38,11 @@ namespace Hotel.src.Application.Services
         }
 
         /// <summary>
-        /// Agrega una habitación a una reserva existente.
+        /// Add a room to an existing reservation.
         /// </summary>
-        /// <param name="reservationRoom">Objeto que relaciona la reserva con la habitación.</param>
-        /// <returns>La relación de reserva y habitación agregada.</returns>
-        /// <exception cref="ArgumentNullException">Se lanza si el objeto reservationRoom es nulo.</exception>
+        /// <param name=“reservationRoom”>Object that relates the reservation to the room.</param>
+        /// <returns>The relationship of reservation and room added.</returns>.
+        /// <exception cref=“ArgumentNullException”>Thrown if the reservationRoom object is null.</exception>.
         public ReservationRoom AddRoomToReservation(ReservationRoom reservationRoom)
         {
             if (reservationRoom == null)
@@ -54,10 +54,10 @@ namespace Hotel.src.Application.Services
         }
 
         /// <summary>
-        /// Actualiza una reserva existente.
+        //// Updates an existing reservation.
         /// </summary>
-        /// <param name="reservation">La reserva a actualizar.</param>
-        /// <exception cref="ArgumentNullException">Se lanza si la reserva es nula.</exception>
+        /// <param name=“reservation”>The reservation to update.
+        /// <exception cref=“ArgumentNullException”>Thrown if the reservation is null.</exception>
         public void UpdateReservation(Reservation reservation)
         {
             if (reservation == null)
@@ -73,23 +73,23 @@ namespace Hotel.src.Application.Services
             _reservationRepository.Update(reservation);
         }
 
-        /// <summary>
-        /// Obtiene las reservas realizadas por un cliente.
+        /// <summary>.
+        /// Gets the reservations made by a customer.
         /// </summary>
-        /// <param name="clientId">El identificador del cliente.</param>
-        /// <returns>Una lista de reservas del cliente.</returns>
+        /// <param name=“clientId”>The client's identifier.
+        /// <returns>A list of reservations made by the client.</returns>.
         public List<Reservation> GetReservationsByClientId(int clientId)
         {
             return _reservationRepository.GetByClientId(clientId);
         }
 
         /// <summary>
-        /// Obtiene las reservas en un rango de fechas específico.
+        /// Gets the bookings in a specific date range.
         /// </summary>
-        /// <param name="startDate">La fecha de inicio del rango.</param>
-        /// <param name="endDate">La fecha de fin del rango.</param>
-        /// <returns>Una lista de reservas que se encuentran dentro del rango de fechas.</returns>
-        /// <exception cref="ArgumentException">Se lanza si la fecha de fin es anterior a la fecha de inicio.</exception>
+        /// <param name=“startDate”>The start date of the range.</param> /// <param name=“startDate”>The start date of the range.
+        /// <param name=“endDate”>The end date of the range.
+        /// <returns>A list of bookings that fall within the date range.</returns>
+        /// <exception cref=“ArgumentException”>Thrown if the end date is before the start date.</exception>.
         public List<Reservation> GetReservationsByDateRange(DateTime startDate, DateTime endDate)
         {
             if (endDate < startDate)
@@ -101,10 +101,10 @@ namespace Hotel.src.Application.Services
         }
 
         /// <summary>
-        /// Obtiene las reservas activas (confirmadas) de un cliente.
+        /// Gets the active (confirmed) reservations for a customer.
         /// </summary>
-        /// <param name="clientId">El identificador del cliente.</param>
-        /// <returns>Una lista de reservas confirmadas del cliente.</returns>
+        /// <param name=“clientId”>The client's identifier.
+        /// <returns>A list of confirmed reservations of the client.</returns>.
         public List<Reservation> GetActiveReservationsByClientId(int clientId)
         {
             return _reservationRepository.GetByClientId(clientId)
@@ -112,13 +112,13 @@ namespace Hotel.src.Application.Services
                 .ToList();
         }
 
-        /// <summary>
-        /// Cancela una habitación dentro de una reserva.
+        /// <summary>.
+        //// Cancels a room within a reservation.
         /// </summary>
-        /// <param name="reservationId">El identificador de la reserva.</param>
-        /// <param name="roomId">El identificador de la habitación a cancelar.</param>
-        /// <exception cref="Exception">
-        /// Se lanza si la reserva no existe, ya se encuentra cancelada o si la habitación no se encuentra en la reserva.
+        /// <param name=“reservationId”>The reservation identifier.</param> /// <param name=“reservationId”>The reservation identifier.
+        /// <param name=“roomId”>The identifier of the room to be canceled.</param>
+        /// <exception cref=“Exception”>
+        /// Thrown if the reservation does not exist, is already cancelled or if the room is not found in the reservation.
         /// </exception>
         public void CancelRoomInReservation(int reservationId, int? roomId)
         {
