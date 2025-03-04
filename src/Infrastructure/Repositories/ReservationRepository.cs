@@ -147,6 +147,10 @@ namespace Hotel.src.Infrastructure.Repositories
         /// <exception cref="ArgumentException">Se lanza si daysAhead es negativo.</exception>
         public List<Reservation> GetUpcomingReservations(int daysAhead)
         {
+            if (daysAhead < 0)
+            {
+                throw new ArgumentException("La cantidad de días no puede ser negativa.");
+            }
             // Obtener la fecha objetivo local (sin hora)
             DateTime targetDateLocal = DateTime.Now.Date.AddDays(daysAhead);
 
