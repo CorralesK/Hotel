@@ -109,7 +109,7 @@ namespace Hotel.src.ConsoleUI
             {
                 Console.WriteLine($"\nError inesperado: {ex.Message}");
             }
-
+            Console.WriteLine("Presione cualquier tecla para continuar...");
             Console.ReadKey();
             ShowMenu();
         }
@@ -149,6 +149,7 @@ namespace Hotel.src.ConsoleUI
                 ShowMenu();
             }
 
+            Console.WriteLine("Presione cualquier tecla para continuar...");
             Console.ReadKey();
             ShowMenu();
         }
