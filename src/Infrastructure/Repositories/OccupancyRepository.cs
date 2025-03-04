@@ -38,7 +38,14 @@ namespace Hotel.src.Infrastructure.Repositories
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("startDate", NpgsqlTypes.NpgsqlDbType.Date, start);
             cmd.Parameters.AddWithValue("endDate", NpgsqlTypes.NpgsqlDbType.Date, end);
-            return Convert.ToDouble(cmd.ExecuteScalar());
+            double totalIncome = Convert.ToDouble(cmd.ExecuteScalar());
+
+            if (totalIncome < 0)
+            {
+                throw new InvalidOperationException("El servicio debe rechazar ingresos negativos.");
+            }
+
+            return totalIncome;
         }
 
         public int GetTotalOccupiedDays(DateTime start, DateTime end)

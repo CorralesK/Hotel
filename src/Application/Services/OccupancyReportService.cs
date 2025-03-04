@@ -39,19 +39,25 @@ namespace Hotel.src.Application.Services
             return report;
         }
 
+
         private double CalculateOccupancyRate(int occupiedDays, int totalRooms, int daysInPeriod)
         {
             int totalPossibleDays = totalRooms * daysInPeriod;
-            return totalPossibleDays > 0 ? (double)occupiedDays / totalPossibleDays : 0;
+            return totalPossibleDays != 0 ? (double)occupiedDays / totalPossibleDays : 0;
         }
+
 
         private List<OccupancyReport.ReportByType> GetOccupancyByType(DateTime start, DateTime end, int daysInPeriod)
         {
+            if (start > end)
+                throw new ArgumentException("La fecha de inicio no puede ser mayor que la fecha de fin.");
+
             var list = new List<OccupancyReport.ReportByType>();
             var roomTypeData = _occupancyRepository.GetOccupancyByType(start, end);
 
             foreach (var (roomType, reservationsCount, occupiedDays, totalRoomsType) in roomTypeData)
             {
+
                 var reportByType = new OccupancyReport.ReportByType
                 {
                     RoomType = roomType,
@@ -60,8 +66,10 @@ namespace Hotel.src.Application.Services
                     AvailableDays = totalRoomsType * daysInPeriod,
                     OccupancyRateType = CalculateOccupancyRate(occupiedDays, totalRoomsType, daysInPeriod)
                 };
+
                 list.Add(reportByType);
             }
+
 
             return list;
         }
