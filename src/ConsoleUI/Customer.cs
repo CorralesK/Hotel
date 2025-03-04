@@ -1,6 +1,7 @@
 ﻿using Hotel.src.Application.Services;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -264,11 +265,14 @@ namespace Hotel.src.ConsoleUI
             Console.ReadKey();
             ShowMenu();
         }
-        public void ReturnToMenu()
+       
+        public static void ReturnToMenu()
         {
-
-            ShowMenu();
-
+            var serviceProvider = ServiceConfigurator.ConfigureServices();
+            var roomService = serviceProvider.GetService<RoomService>();
+            var reservationService = serviceProvider.GetService<ReservationMenu>();
+            var reservationMenu = new Customer(roomService, reservationService);
+            reservationMenu.ShowMenu();
         }
     }
 }

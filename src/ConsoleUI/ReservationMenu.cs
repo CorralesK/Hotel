@@ -1,6 +1,7 @@
 ﻿using Hotel.src.Application.Services;
 using Hotel.src.Core.Entities;
 using Hotel.src.Core.Enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel.src.ConsoleUI
 {
@@ -25,7 +26,7 @@ namespace Hotel.src.ConsoleUI
             Console.WriteLine("\n1. Registrar nueva reserva");
             Console.WriteLine("2. Cancelar habitación en reserva");
             Console.WriteLine("3. Historial de reservas");
-            Console.WriteLine("4. Cerrar Sesión");
+            Console.WriteLine("4. Regresar al menú principal");
             Console.Write("Seleccione una opción: ");
 
             string option = Console.ReadLine();
@@ -41,7 +42,7 @@ namespace Hotel.src.ConsoleUI
                     ShowReservationsHistory();
                     break;
                 case "4":
-                    Program.ShowStartScreen();
+                    Customer.ReturnToMenu();
                     break;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
@@ -293,6 +294,6 @@ namespace Hotel.src.ConsoleUI
             ShowReservationMenu();
 
         }
-
+        
     }
 }
