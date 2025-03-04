@@ -11,21 +11,21 @@ namespace Hotel.src.Infrastructure.Repositories
         private readonly ApplicationDbContext _context;
 
         /// <summary>
-        /// Inicializa una nueva instancia de la clase <see cref="ReservationRepository"/>.
+        /// Initializes a new instance of the <see cref="ReservationRepository"/> class.
         /// </summary>
-        /// <param name="context">Contexto de la aplicación para interactuar con la base de datos.</param>
+        /// <param name="context">Application context for interacting with the database.</param>
         public ReservationRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Agrega una nueva reserva a la base de datos.
+        /// Adds a new reservation to the database.
         /// </summary>
-        /// <param name="reservation">Objeto de reserva a agregar.</param>
-        /// <returns>La reserva agregada.</returns>
-        /// <exception cref="ArgumentNullException">Se lanza si la reserva es nula.</exception>
-        /// <exception cref="Exception">Se lanza si ocurre un error al guardar la reserva.</exception>
+        /// <param name="reservation">Reservation object to be added.</param>
+        /// <returns>The added reservation.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the reservation is null.</exception>
+        /// <exception cref="Exception">Thrown if an error occurs while saving the reservation.</exception>
         public Reservation Add(Reservation reservation)
         {
             if (reservation == null)
@@ -46,12 +46,12 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Agrega una habitación a una reserva.
+        /// Adds a room to a reservation.
         /// </summary>
-        /// <param name="reservationRoom">Objeto que relaciona una reserva con una habitación.</param>
-        /// <returns>La relación de reserva y habitación agregada.</returns>
-        /// <exception cref="ArgumentNullException">Se lanza si el objeto reservationRoom es nulo.</exception>
-        /// <exception cref="Exception">Se lanza si ocurre un error al guardar la relación.</exception>
+        /// <param name="reservationRoom">Object that links a reservation with a room.</param>
+        /// <returns>The added reservation-room relationship.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the reservationRoom object is null.</exception>
+        /// <exception cref="Exception">Thrown if an error occurs while saving the relationship.</exception>
         public ReservationRoom AddRoomInReservation(ReservationRoom reservationRoom)
         {
             if (reservationRoom == null)
@@ -72,11 +72,11 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Actualiza una reserva existente en la base de datos.
+        /// Updates an existing reservation in the database.
         /// </summary>
-        /// <param name="reservation">La reserva a actualizar.</param>
-        /// <exception cref="ArgumentNullException">Se lanza si la reserva es nula.</exception>
-        /// <exception cref="Exception">Se lanza si ocurre un error al actualizar la reserva.</exception>
+        /// <param name="reservation">The reservation to update.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the reservation is null.</exception>
+        /// <exception cref="Exception">Thrown if an error occurs while updating the reservation.</exception>
         public void Update(Reservation reservation)
         {
             if (reservation == null)
@@ -96,10 +96,10 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Obtiene una reserva por su ID.
+        /// Retrieves a reservation by its ID.
         /// </summary>
-        /// <param name="id">El identificador único de la reserva.</param>
-        /// <returns>La reserva correspondiente o null si no se encuentra.</returns>
+        /// <param name="id">The unique identifier of the reservation.</param>
+        /// <returns>The corresponding reservation or null if not found.</returns>
         public Reservation GetById(int id)
         {
             return _context.Reservations
@@ -109,10 +109,10 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Obtiene las reservas realizadas por un cliente específico.
+        /// Retrieves reservations made by a specific client.
         /// </summary>
-        /// <param name="clientId">El identificador del cliente.</param>
-        /// <returns>Una lista de reservas del cliente.</returns>
+        /// <param name="clientId">The client's identifier.</param>
+        /// <returns>A list of the client's reservations.</returns>
         public List<Reservation> GetByClientId(int clientId)
         {
             return _context.Reservations
@@ -121,12 +121,12 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Obtiene las reservas en un rango de fechas específico.
+        /// Retrieves reservations within a specific date range.
         /// </summary>
-        /// <param name="startDate">La fecha de inicio del rango.</param>
-        /// <param name="endDate">La fecha de fin del rango.</param>
-        /// <returns>Una lista de reservas que se encuentran dentro del rango de fechas.</returns>
-        /// <exception cref="ArgumentException">Se lanza si la fecha de fin es anterior a la fecha de inicio.</exception>
+        /// <param name="startDate">The start date of the range.</param>
+        /// <param name="endDate">The end date of the range.</param>
+        /// <returns>A list of reservations within the specified date range.</returns>
+        /// <exception cref="ArgumentException">Thrown if the end date is earlier than the start date.</exception>
         public List<Reservation> GetByDateRange(DateTime startDate, DateTime endDate)
         {
             if (endDate < startDate)
@@ -140,21 +140,21 @@ namespace Hotel.src.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Obtiene las reservas próximas según la cantidad de días especificada.
+        /// Retrieves upcoming reservations based on the specified number of days ahead.
         /// </summary>
-        /// <param name="daysAhead">Cantidad de días a partir de hoy para buscar reservas próximas.</param>
-        /// <returns>Una lista de reservas próximas.</returns>
-        /// <exception cref="ArgumentException">Se lanza si daysAhead es negativo.</exception>
+        /// <param name="daysAhead">Number of days from today to search for upcoming reservations.</param>
+        /// <returns>A list of upcoming reservations.</returns>
+        /// <exception cref="ArgumentException">Thrown if daysAhead is negative.</exception>
         public List<Reservation> GetUpcomingReservations(int daysAhead)
         {
             if (daysAhead < 0)
             {
                 throw new ArgumentException("La cantidad de días no puede ser negativa.");
             }
-            // Obtener la fecha objetivo local (sin hora)
+            // Get local target date (no time)
             DateTime targetDateLocal = DateTime.Now.Date.AddDays(daysAhead);
 
-            // Convertir la fecha objetivo local a UTC
+            // Convert local target date to UTC
             DateTime targetDateUtc = TimeZoneInfo.ConvertTimeToUtc(targetDateLocal, TimeZoneInfo.Local);
 
             return _context.Reservations
@@ -164,6 +164,13 @@ namespace Hotel.src.Infrastructure.Repositories
                 .Where(r => r.STARTDATE.Date == targetDateUtc.Date)
                 .ToList();
         }
+        /// <summary>
+        /// Retrieves confirmed reservations within a specified date range.
+        /// </summary>
+        /// <param name="startDate">The start date of the range.</param>
+        /// <param name="endDate">The end date of the range.</param>
+        /// <returns>A list of confirmed reservations.</returns>
+        /// <exception cref="ArgumentException">Thrown if the end date is earlier than the start date.</exception>
         public List<Reservation> GetConfirmedReservations(DateTime startDate, DateTime endDate)
         {
             if (endDate < startDate)
